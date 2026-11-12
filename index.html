@@ -1,0 +1,621 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Biosecurity Atlas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Same visual system as the Atlas: one reading column, numbered stages that follow a token through the model. */
+:root{
+  --bg:#EDF0F2; --paper:#F8FAFB; --ink:#16212B; --muted:#55626E; --rule:#C9D1D8;
+  --accent:#0E6B66; --accent-soft:#D3E7E5; --warn:#A8601A; --warn-soft:#F2E2CF; --bad:#A33A3A; --bad-soft:#F1D9D7;
+  --u1:#3D5A80; --u2:#0E6B66; --u3:#8A5A12; --u4:#6A4C93; --u5:#A33A3A; --u6:#2F6B3A;
+  --display:"Bricolage Grotesque", "Avenir Next", "Segoe UI", system-ui, sans-serif;
+  --body:"Source Serif 4", Georgia, "Times New Roman", serif;
+  --mono:"IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#11171C; --paper:#182128; --ink:#E4E9ED; --muted:#9AA7B2; --rule:#2E3A44;
+  --accent:#4FB3AB; --accent-soft:#16332F; --warn:#D9954F; --warn-soft:#3A2A19; --bad:#E07A72; --bad-soft:#3A1F1E;
+  --u1:#86A6CF; --u2:#4FB3AB; --u3:#D2A55A; --u4:#AE93D6; --u5:#E07A72; --u6:#78B985; color-scheme:dark }}
+:root[data-theme="dark"]{
+  --bg:#11171C; --paper:#182128; --ink:#E4E9ED; --muted:#9AA7B2; --rule:#2E3A44;
+  --accent:#4FB3AB; --accent-soft:#16332F; --warn:#D9954F; --warn-soft:#3A2A19; --bad:#E07A72; --bad-soft:#3A1F1E;
+  --u1:#86A6CF; --u2:#4FB3AB; --u3:#D2A55A; --u4:#AE93D6; --u5:#E07A72; --u6:#78B985; color-scheme:dark }
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto} *{transition:none !important} }
+body{margin:0; background:var(--bg); color:var(--ink); font-family:var(--body); font-size:17px; line-height:1.6;
+  padding-left:max(16px, env(safe-area-inset-left, 0px)); padding-right:max(16px, env(safe-area-inset-right, 0px)); padding-bottom:64px}
+a{color:var(--accent); text-underline-offset:3px}
+h1,h2,h3,h4,h5{font-family:var(--display); line-height:1.15; text-wrap:balance; margin:0}
+p{margin:0}
+button, input{font:inherit; color:inherit}
+:focus-visible{outline:2px solid var(--accent); outline-offset:3px}
+
+.tabsnav{max-width:1080px; margin:0 auto; display:flex; gap:4px; padding-top:20px; border-bottom:1px solid var(--rule); overflow-x:auto}
+.tabsnav a{font-family:var(--display); font-weight:700; font-size:15px; text-decoration:none; color:var(--muted); padding:10px 14px; border-radius:8px 8px 0 0; border:1px solid transparent; border-bottom:0; white-space:nowrap}
+.tabsnav a:hover{color:var(--ink)}
+.tabsnav a[aria-current="page"]{color:var(--ink); background:var(--paper); border-color:var(--rule); margin-bottom:-1px}
+
+.page{max-width:1080px; margin:0 auto}
+.mast{padding-block:44px 28px}
+.eyebrow{font-family:var(--mono); font-size:12px; letter-spacing:.12em; text-transform:uppercase; color:var(--muted)}
+.mast h1{font-size:clamp(38px, 6.5vw, 70px); font-weight:800; letter-spacing:-.02em; margin-top:10px}
+.lede{max-width:64ch; margin-top:16px; font-size:19px; color:var(--muted)}
+
+/* Pipeline nav */
+.pipe{position:sticky; top:0; z-index:5; background:var(--bg); padding-block:10px; border-bottom:1px solid var(--rule); margin-bottom:24px}
+.pipe ol{list-style:none; margin:0; padding:0; display:flex; gap:6px; overflow-x:auto; scrollbar-width:thin}
+.pipe a{display:flex; align-items:center; gap:6px; white-space:nowrap; text-decoration:none; color:var(--muted); font-family:var(--mono); font-size:12.5px; padding:7px 10px; border-radius:99px; border:1px solid var(--rule); background:var(--paper)}
+.pipe a b{font-family:var(--display); color:var(--ink); font-weight:700; font-size:13.5px}
+.pipe a.on{background:var(--ink); color:var(--bg); border-color:var(--ink)}
+.pipe a.on b{color:var(--bg)}
+.pipe li:not(:last-child)::after{content:"→"; color:var(--rule); margin-left:6px}
+.pipe li{display:flex; align-items:center}
+
+section.st{padding-block:12px 52px; border-bottom:1px solid var(--rule); margin-bottom:40px; scroll-margin-top:72px}
+section.st:last-of-type{border-bottom:0}
+.st-head{display:grid; gap:8px; padding-left:16px; border-left:6px solid var(--sc)}
+.st-head .eyebrow{color:var(--sc)}
+.st-head h2{font-size:clamp(28px, 4.4vw, 42px); font-weight:800; letter-spacing:-.015em}
+.st-head p{max-width:66ch; color:var(--muted); font-size:18px}
+.prose{display:grid; gap:12px; max-width:68ch; margin-top:16px}
+.lab{margin-top:20px; background:var(--paper); border:1px solid var(--rule); border-radius:12px; padding:20px; display:grid; gap:16px; min-width:0}
+.lab-title{font-family:var(--mono); font-size:12px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted)}
+.note{font-family:var(--mono); font-size:12.5px; color:var(--muted); line-height:1.5}
+.key{border-left:4px solid var(--sc); padding:10px 14px; background:var(--bg); border-radius:0 8px 8px 0; font-size:16px; max-width:70ch}
+.key b{font-family:var(--display)}
+.row{display:flex; flex-wrap:wrap; gap:8px; align-items:center}
+.btn{font-family:var(--display); font-weight:700; font-size:14px; padding:8px 14px; border-radius:8px; border:1px solid var(--rule); background:var(--bg); cursor:pointer; min-height:40px}
+.btn:hover{border-color:var(--ink)}
+.btn.pri{background:var(--sc, var(--accent)); border-color:var(--sc, var(--accent)); color:var(--bg)}
+.btn[aria-pressed="true"]{background:var(--ink); color:var(--bg); border-color:var(--ink)}
+.chip{font-family:var(--mono); font-size:12.5px; padding:6px 10px; border-radius:99px; border:1px solid var(--rule); background:var(--bg); cursor:pointer; min-height:34px}
+.chip[aria-pressed="true"]{background:var(--ink); color:var(--bg); border-color:var(--ink)}
+input[type=text]{width:100%; font-size:17px; padding:10px 14px; border-radius:8px; border:1px solid var(--rule); background:var(--bg); min-height:44px}
+input[type=range]{width:100%; accent-color:var(--sc, var(--accent)); min-height:30px}
+.ctl{display:grid; gap:4px}
+.ctl label{font-family:var(--mono); font-size:12.5px; color:var(--muted); display:flex; justify-content:space-between; gap:8px}
+.ctl label output{color:var(--ink); font-weight:500}
+svg{display:block; width:100%; height:auto}
+svg text{font-family:var(--mono); fill:var(--ink); font-size:13px}
+.two{display:grid; grid-template-columns:minmax(0,1.2fr) minmax(0,1fr); gap:20px; align-items:start}
+@media (max-width:760px){ .two{grid-template-columns:minmax(0,1fr)} }
+
+/* 1 tokens */
+.toks{display:flex; flex-wrap:wrap; gap:4px}
+.tok{display:grid; gap:2px; padding:6px 8px; border-radius:6px; font-family:var(--mono); font-size:15px; white-space:pre; text-align:center}
+.tok small{font-size:10.5px; color:var(--muted)}
+.stats{display:flex; flex-wrap:wrap; gap:20px}
+.stat .v{font-family:var(--display); font-weight:800; font-size:28px; line-height:1}
+.stat .s{font-family:var(--mono); font-size:12px; color:var(--muted)}
+
+/* 2 embeddings */
+.emb svg .w{cursor:pointer}
+.emb svg .w circle{transition:r .2s}
+.emb svg .w:hover circle{r:7}
+
+/* 3 attention */
+.sent{display:flex; flex-wrap:wrap; gap:6px}
+.sent button{font-family:var(--mono); font-size:15px; padding:8px 10px; border-radius:6px; border:1px solid var(--rule); cursor:pointer; min-height:40px; position:relative}
+.sent button.q{outline:3px solid var(--ink); outline-offset:1px}
+.sent button.fut{opacity:.35}
+.sent button .pct{position:absolute; left:50%; transform:translateX(-50%); top:-18px; font-size:10.5px; color:var(--muted)}
+.mat{display:grid; gap:2px; font-family:var(--mono); font-size:10px; max-width:280px}
+.mat span{aspect-ratio:1; border-radius:2px}
+
+/* 4 qkv */
+.kv{display:grid; gap:10px}
+.kvrow{display:grid; grid-template-columns:76px minmax(0,1fr) 54px 110px; gap:10px; align-items:center}
+.kvrow .w{font-family:var(--mono); font-size:14px}
+.kvrow .bar{height:16px; border-radius:4px; background:var(--rule); position:relative; overflow:hidden}
+.kvrow .bar i{position:absolute; inset:0 auto 0 0; background:var(--sc)}
+.kvrow .p{font-family:var(--mono); font-size:13px; text-align:right}
+.sw{width:28px; height:28px; border-radius:6px; border:1px solid var(--rule); display:inline-block; vertical-align:middle}
+.mix{display:flex; align-items:center; gap:12px; font-family:var(--mono); font-size:13px}
+.mix .sw{width:56px; height:56px; border-radius:10px}
+@media (max-width:560px){ .kvrow{grid-template-columns:64px minmax(0,1fr) 46px} .kvrow .ctl{grid-column:1 / -1} }
+
+/* 5 residual stream */
+.rs{display:grid; grid-template-columns:200px minmax(0,1fr); gap:20px; align-items:start}
+@media (max-width:640px){ .rs{grid-template-columns:minmax(0,1fr)} }
+.stack{display:grid; gap:6px}
+.layer{display:flex; justify-content:space-between; align-items:center; padding:8px 12px; border-radius:8px; border:1px solid var(--rule); background:var(--bg); font-family:var(--display); font-weight:700; font-size:14px; cursor:pointer; text-align:left; min-height:40px}
+.layer small{font-family:var(--mono); font-weight:400; font-size:11.5px; color:var(--muted)}
+.layer.done{border-color:var(--sc); background:var(--accent-soft)}
+.layer.cur{outline:3px solid var(--sc); outline-offset:1px}
+.mem{display:grid; gap:8px}
+.mem .item{display:grid; grid-template-columns:auto 1fr; gap:10px; align-items:start; padding:10px 12px; border-radius:8px; background:var(--bg); border:1px solid var(--rule); font-size:15.5px; line-height:1.45}
+.mem .item .src{font-family:var(--mono); font-size:11px; padding:2px 7px; border-radius:99px; background:var(--sc); color:var(--bg); white-space:nowrap; margin-top:2px}
+.mem .item.new{border-color:var(--sc); animation:pop .5s ease}
+@keyframes pop{from{transform:translateY(-6px); opacity:0}to{transform:none; opacity:1}}
+
+/* 6 next token */
+.bars{display:grid; gap:6px}
+.brow{display:grid; grid-template-columns:84px minmax(0,1fr) 60px; gap:10px; align-items:center; font-family:var(--mono); font-size:14px}
+.brow .bar{height:20px; border-radius:4px; background:var(--rule); position:relative; overflow:hidden}
+.brow .bar i{position:absolute; inset:0 auto 0 0; background:var(--sc); transition:width .25s}
+.brow .p{text-align:right; font-size:13px}
+.brow.hit .bar i{background:var(--warn)}
+.gen{font-family:var(--body); font-size:20px; line-height:1.6; padding:14px 16px; background:var(--bg); border-radius:8px; min-height:60px}
+.gen span.n{background:var(--accent-soft); border-radius:4px; padding:0 3px; animation:pop .4s ease}
+.trace{font-family:var(--mono); font-size:12.5px; color:var(--muted); display:grid; gap:4px; max-height:180px; overflow:auto}
+
+/* 7 training */
+.loss svg .dot{transition:cx .2s, cy .2s}
+
+/* 8 safety map */
+.map svg .hot{cursor:pointer}
+.map svg .hot:hover rect, .map svg .hot.sel rect{stroke-width:3}
+.panel{padding:12px 16px; border-radius:8px; background:var(--bg); border-left:4px solid var(--sc); display:grid; gap:6px; font-size:15.5px; min-height:56px}
+.panel h5{font-size:16px}
+footer{max-width:1080px; margin:0 auto; padding-top:24px; border-top:1px solid var(--rule); font-family:var(--mono); font-size:12.5px; color:var(--muted)}
+/* Biosecurity atlas: same system, four defence layers as unit colours. */
+.layers4{display:grid; grid-template-columns:repeat(4, minmax(0,1fr)); gap:10px; margin-top:20px}
+@media (max-width:640px){ .layers4{grid-template-columns:repeat(2, minmax(0,1fr))} }
+.l4{border:1px solid var(--rule); border-top:6px solid var(--lc); border-radius:10px; background:var(--paper); padding:14px; text-align:left; cursor:pointer; display:grid; gap:4px; min-height:112px; align-content:start}
+.l4 .n{font-family:var(--mono); font-size:11.5px; color:var(--lc); letter-spacing:.08em; text-transform:uppercase}
+.l4 b{font-family:var(--display); font-size:18px}
+.l4 span:last-child{font-size:14.5px; color:var(--muted); line-height:1.4}
+.l4[aria-pressed="true"]{background:color-mix(in srgb, var(--lc) 14%, var(--paper)); outline:2px solid var(--lc)}
+.refl{display:grid; grid-template-columns:repeat(auto-fit, minmax(260px, 1fr)); gap:14px; margin-top:20px}
+.refl > div{background:var(--paper); border:1px solid var(--rule); border-top:4px solid var(--sc); border-radius:10px; padding:16px 18px; display:grid; gap:8px; align-content:start}
+.refl > div.q{border-top-color:var(--warn)}
+.refl h4{font-size:16px}
+.refl p{font-size:15.5px; line-height:1.5}
+.tag{font-family:var(--mono); font-size:11px; letter-spacing:.06em; padding:2px 8px; border-radius:99px; border:1px solid var(--accent); color:var(--accent); justify-self:start}
+details.rd{background:var(--paper); border:1px solid var(--rule); border-radius:10px}
+details.rd > summary{cursor:pointer; padding:12px 16px; list-style:none; display:grid; gap:2px}
+details.rd > summary::-webkit-details-marker{display:none}
+details.rd > summary b{font-family:var(--display); font-size:16px}
+details.rd > summary span{font-family:var(--mono); font-size:11.5px; color:var(--muted)}
+details.rd[open]{border-color:var(--sc)}
+details.rd .body{padding:0 16px 14px; display:grid; gap:8px; font-size:15px}
+details.rd .body a{justify-self:start; font-family:var(--display); font-weight:700; font-size:14px; text-decoration:none; border:1px solid var(--sc); color:var(--sc); border-radius:8px; padding:6px 12px}
+.reads{display:grid; grid-template-columns:repeat(auto-fill, minmax(260px, 1fr)); gap:10px; margin-top:16px; align-items:start}
+.quiz{display:grid; gap:14px}
+.qq{display:grid; gap:8px}
+.qq .stem{font-family:var(--display); font-weight:700; font-size:16px}
+.opt{display:block; width:100%; text-align:left; padding:10px 12px; border-radius:8px; border:1px solid var(--rule); background:var(--bg); cursor:pointer; font-family:var(--body); font-size:15.5px; min-height:44px}
+.opt.right{background:var(--accent-soft); border-color:var(--accent)}
+.opt.wrong{background:var(--bad-soft); border-color:var(--bad)}
+.opt:disabled{cursor:default}
+.why{font-size:15px; color:var(--muted); border-left:3px solid var(--sc); padding-left:12px}
+.scen{display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:14px; margin-top:16px}
+.scen > div{background:var(--paper); border:1px solid var(--rule); border-radius:10px; padding:16px 18px; display:grid; gap:10px; align-content:start}
+.scen h4{font-size:17px}
+.scen .seg{display:inline-flex; border:1px solid var(--rule); border-radius:8px; overflow:hidden; justify-self:start}
+.scen .seg button{border:0; background:var(--bg); padding:7px 12px; cursor:pointer; font-family:var(--display); font-weight:700; font-size:13.5px; min-height:38px}
+.scen .seg button[aria-pressed="true"]{background:var(--sc); color:var(--bg)}
+.scen p{font-size:15.5px; line-height:1.55}
+p.panel{display:block}
+.callout{padding:14px 16px; border-radius:10px; background:var(--warn-soft); border:1px solid var(--warn); font-size:15.5px; max-width:74ch; margin-top:16px}
+
+/* Biosecurity palette: warm paper, terracotta accent, earthy layer colours (distinct from the AI pages) */
+:root{
+  --bg:#F5EFE6; --paper:#FFFBF5; --ink:#2B1D18; --muted:#6F5E55; --rule:#E0D2C3;
+  --accent:#B4472E; --accent-soft:#F6DCD2; --warn:#B7791F; --warn-soft:#F7E6C8; --bad:#A3343A; --bad-soft:#F4D6D6;
+  --u1:#1F6F8B; --u2:#3C7D4A; --u3:#C27A12; --u4:#7A3E8E; --u5:#A3343A; --u6:#B4472E;
+  --prevent:#7A3E8E; --detect:#1F6F8B; --withstand:#3C7D4A; --combat:#C27A12;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#1A1411; --paper:#241B17; --ink:#F1E7DE; --muted:#B4A397; --rule:#3B2F28;
+  --accent:#E9876C; --accent-soft:#40231B; --warn:#E3A84F; --warn-soft:#3C2C14; --bad:#E77B7F; --bad-soft:#3E1E20;
+  --u1:#62B3CF; --u2:#7DC08A; --u3:#E8A94A; --u4:#C08BD3; --u5:#E77B7F; --u6:#E9876C;
+  --prevent:#C08BD3; --detect:#62B3CF; --withstand:#7DC08A; --combat:#E8A94A; }}
+:root[data-theme="dark"]{
+  --bg:#1A1411; --paper:#241B17; --ink:#F1E7DE; --muted:#B4A397; --rule:#3B2F28;
+  --accent:#E9876C; --accent-soft:#40231B; --warn:#E3A84F; --warn-soft:#3C2C14; --bad:#E77B7F; --bad-soft:#3E1E20;
+  --u1:#62B3CF; --u2:#7DC08A; --u3:#E8A94A; --u4:#C08BD3; --u5:#E77B7F; --u6:#E9876C;
+  --prevent:#C08BD3; --detect:#62B3CF; --withstand:#7DC08A; --combat:#E8A94A; }
+.tabsnav a[aria-current="page"]{color:var(--accent)}
+.mast h1{color:var(--ink)}
+.mast .eyebrow{color:var(--accent)}
+</style>
+</head>
+<body>
+
+<nav class="tabsnav" aria-label="Pages">
+  <a href="./" aria-current="page">Biosecurity atlas</a>
+  <a href="https://hildieleyser.com/ai-safety-atlas/">AI safety atlas ↗</a>
+</nav>
+
+<div class="page">
+<header class="mast">
+  <div class="eyebrow">BlueDot Impact · Biosecurity · study companion</div>
+  <h1>Biosecurity Atlas</h1>
+  <p class="lede">The course in one idea: stack defences so a pandemic has to get past every one of them. Prevent it starting, detect it early, withstand the spread, and combat it with medicine. Click a layer to jump to its unit.</p>
+  <div class="layers4" id="l4"></div>
+</header>
+
+<nav class="pipe" aria-label="Units">
+  <ol>
+    <li><a href="#u1"><span>1</span><b>Pandemic-proof world</b></a></li>
+    <li><a href="#u2"><span>2</span><b>Prevent</b></a></li>
+    <li><a href="#u3"><span>3</span><b>Detect</b></a></li>
+    <li><a href="#u4"><span>4</span><b>Withstand</b></a></li>
+    <li><a href="#u5"><span>5</span><b>Combat</b></a></li>
+    <li><a href="#u6"><span>6</span><b>Contribute</b></a></li>
+  </ol>
+</nav>
+
+<main>
+<!-- UNIT 1 -->
+<section class="st" id="u1" style="--sc:var(--u5)">
+  <div class="st-head"><div class="eyebrow">Unit 1</div><h2>Building a pandemic-proof world</h2>
+    <p>Pandemics have been among the deadliest events in history. New tools in synthetic biology and AI could make deliberate or accidental outbreaks worse than anything nature produces. Nature sets a baseline, not a ceiling.</p></div>
+  <div class="lab">
+    <div class="lab-title">Deaths from major pandemics (approximate; estimates vary widely)</div>
+    <svg id="deaths" viewBox="0 0 860 270" role="img" aria-label="Approximate death tolls: smallpox in the 20th century about 300 million, 1918 flu 17 to 100 million, HIV about 42 million, Black Death in Europe 25 to 50 million, COVID-19 about 7 million reported and 20 million or more excess deaths"></svg>
+    <p class="note" id="deathnote" aria-live="polite">Hover or tap a bar for the range.</p>
+  </div>
+  <div class="prose">
+    <p><b>Is nature still the worst bioterrorist?</b> The course argues no. Natural pathogens aren't optimised to harm people, so they're a floor on what's possible. Engineered agents, and new risks like mirror life, don't have to respect that floor.</p>
+    <p><b>Fire-fighting, not just fire-fighters:</b> like fire safety, the goal is a world where outbreaks can't spread far, through building standards, early alarms and ready equipment, not just heroic response.</p>
+  </div>
+  <div class="refl">
+    <div><span class="tag">From my group doc</span><h4>My takeaways</h4><p>AI and nature will co-create risk in the future. The dichotomy is false. Agency in the face of these risks is crucial.</p></div>
+    <div class="q"><span class="tag">From my group doc</span><h4>My open questions</h4><p>How do we balance the safeguards inside a model with safeguards on how it interacts with the outside world? Is this different for LLMs and other modalities?</p></div>
+  </div>
+  <div class="reads" data-r="1"></div>
+  <div class="lab quiz" data-q="1"><div class="lab-title">Check yourself</div></div>
+</section>
+
+<!-- UNIT 2 -->
+<section class="st" id="u2" style="--sc:var(--prevent)">
+  <div class="st-head"><div class="eyebrow">Unit 2 · Prevent</div><h2>Preventing engineered pandemics</h2>
+    <p>Delay patient zero. The course splits prevention into <b>deterring</b> people who might cause harm and <b>denying</b> them the means, through rules on risky research, safeguards in AI models and screening at research infrastructure like DNA synthesis.</p></div>
+  <div class="lab">
+    <div class="lab-title">The four prevention levers: click one</div>
+    <div class="row" id="levers"></div>
+    <div class="panel" id="leverinfo" aria-live="polite"></div>
+  </div>
+  <div class="lab">
+    <div class="lab-title">The unilateralist's curse: drag the sliders</div>
+    <p style="max-width:70ch">If many groups could each decide alone to do something risky (like publish a dangerous method), it only takes one to misjudge. The more groups, the more likely <i>someone</i> goes ahead, even if each is careful. The horsepox synthesis paper is the course's example.</p>
+    <div class="two">
+      <div style="display:grid; gap:12px">
+        <div class="ctl"><label for="un">groups who could act alone <output id="uno">10</output></label><input type="range" id="un" min="1" max="100" step="1" value="10"></div>
+        <div class="ctl"><label for="up">chance each one misjudges <output id="upo">5%</output></label><input type="range" id="up" min="0.5" max="30" step="0.5" value="5"></div>
+      </div>
+      <div style="display:grid; gap:6px"><div class="stat"><div class="v" id="ur">0%</div><div class="s">chance at least one goes ahead</div></div><svg id="ucurve" viewBox="0 0 320 130" role="img" aria-label="Chance of at least one actor going ahead rises with the number of actors"></svg></div>
+    </div>
+    <p class="note">1 − (1 − p)ⁿ. Fixes: norms of consulting before publishing, shared review, and making the riskiest steps require many hands.</p>
+  </div>
+  <div class="lab">
+    <div class="lab-title">How strong is the evidence about AI biorisk? Click a level</div>
+    <svg id="pyr" viewBox="0 0 860 230" role="img" aria-label="Evidence hierarchy from knowledge benchmarks at the bottom to real-world evidence at the top"></svg>
+    <div class="panel" id="pyrinfo" aria-live="polite"><p class="note">Higher levels are stronger evidence but harder and slower to get.</p></div>
+  </div>
+  <div class="refl">
+    <div><span class="tag">From my group doc</span><h4>What I learned</h4><p>The problem of intent in biosecurity. People with the same training can have very different intentions, so it's almost impossible to judge intent from training. I also came to see the importance of community and the societal level, where before I'd concentrated on systems and models.</p></div>
+    <div class="q"><span class="tag">From my group doc</span><h4>My open questions</h4><p>How can we build internal, reward-based incentives into an LLM so that it wants nature to succeed? If LLMs ran on different kinds of compute, like plant auxins, would that change their output?</p></div>
+  </div>
+  <div class="reads" data-r="2"></div>
+  <div class="lab quiz" data-q="2"><div class="lab-title">Check yourself</div></div>
+</section>
+
+<!-- UNIT 3 -->
+<section class="st" id="u3" style="--sc:var(--detect)">
+  <div class="st-head"><div class="eyebrow">Unit 3 · Detect</div><h2>Detecting early infections</h2>
+    <p>Prevention failed and someone is infected. Detection has three jobs: notice something is spreading (hard if it's novel or spreads without symptoms), characterise it, then find cases and contain them. Pathogen-agnostic tools like metagenomic sequencing read every DNA and RNA fragment in a sample, so they can flag things nobody knew to look for.</p></div>
+  <div class="lab">
+    <div class="lab-title">Try it: every doubling you buy matters</div>
+    <div class="two">
+      <div style="display:grid; gap:12px">
+        <div class="ctl"><label for="dd">doubling time <output id="ddo">3 days</output></label><input type="range" id="dd" min="1.5" max="10" step="0.5" value="3"></div>
+        <div class="ctl"><label for="dt">detected when this share of people have been infected <output id="dto">1%</output></label><input type="range" id="dt" min="-4" max="1" step="0.25" value="0"></div>
+        <div class="ctl"><label for="dr">time from detection to effective response <output id="dro">3 weeks</output></label><input type="range" id="dr" min="0" max="8" step="0.5" value="3"></div>
+      </div>
+      <div style="display:grid; gap:10px">
+        <div class="stats"><div class="stat"><div class="v" id="dcases">0</div><div class="s">people infected at detection</div></div><div class="stat"><div class="v" id="dresp">0</div><div class="s">infected by response</div></div></div>
+        <p class="panel" id="dmsg" aria-live="polite"></p>
+      </div>
+    </div>
+    <svg id="dcurve" viewBox="0 0 860 220" role="img" aria-label="Cumulative infections growing exponentially with markers for detection and response"></svg>
+    <p class="note">Toy model: simple exponential growth in a population of 8 billion, ignoring immunity and behaviour change. Kaufman's target for early warning is flagging a new pathogen before about 1% of people have been infected.</p>
+  </div>
+  <h3 style="margin-top:36px; font-family:var(--display); font-size:24px">My outbreak scenarios</h3>
+  <p style="max-width:70ch; margin-top:8px; color:var(--muted)">From the group exercise: how would each outbreak be found today, and how could it be found with better systems? Toggle between the two.</p>
+  <div class="scen" id="scen"></div>
+  <div class="refl">
+    <div><span class="tag">From my group doc</span><h4>What I learned</h4><p>The balance between institutional failures and technical failures, solutions and capabilities. Societal influences seem really significant, which is a bit disappointing because the fixes feel less tractable and less inspiring. The emerging technologies are really exciting, but there's still an uphill battle to make cheap, widely deployable consumables. Synthetic biology could help there.</p></div>
+    <div class="q"><span class="tag">From my group doc</span><h4>My open questions</h4><p>What's the role of trust, both in public warnings and in technologies like vaccines? Trust was really eroded during COVID, and more so since as more information has come out. I fear this will have long-term effects.</p></div>
+  </div>
+  <div class="reads" data-r="3"></div>
+  <div class="lab quiz" data-q="3"><div class="lab-title">Check yourself</div></div>
+</section>
+
+<!-- UNIT 4 -->
+<section class="st" id="u4" style="--sc:var(--withstand)">
+  <div class="st-head"><div class="eyebrow">Unit 4 · Withstand</div><h2>Blocking transmission</h2>
+    <p>Non-pharmaceutical interventions (NPIs) mostly work whatever the pathogen, so they can be ready in advance and deployed within hours. Lockdowns are blunt; the course focuses on protecting essential workers with PPE and making indoor air safer with ventilation, filtration and far-UVC light.</p></div>
+  <div class="lab">
+    <div class="lab-title">Try it: one infected person in a meeting room for 2 hours</div>
+    <div class="two">
+      <div style="display:grid; gap:12px">
+        <div class="ctl"><label for="ach">ventilation (air changes per hour) <output id="acho">2</output></label><input type="range" id="ach" min="0.5" max="12" step="0.5" value="2"></div>
+        <div class="ctl"><label for="hepa">air purifier (equivalent air changes) <output id="hepao">0</output></label><input type="range" id="hepa" min="0" max="12" step="0.5" value="0"></div>
+        <div class="ctl"><label for="uvc">far-UVC (equivalent air changes) <output id="uvco">0</output></label><input type="range" id="uvc" min="0" max="30" step="1" value="0"></div>
+        <div class="ctl"><label for="rh">relative humidity <output id="rho">45%</output></label><input type="range" id="rh" min="20" max="90" step="5" value="45"></div>
+        <div class="row" role="group" aria-label="Masks"><span class="note">Everyone wears:</span><button class="chip" type="button" aria-pressed="true" data-m="1">no mask</button><button class="chip" type="button" aria-pressed="false" data-m="0.5">surgical mask</button><button class="chip" type="button" aria-pressed="false" data-m="0.1">well-fitted N95</button></div>
+      </div>
+      <div style="display:grid; gap:10px">
+        <div class="stat"><div class="v" id="prisk">0%</div><div class="s">chance each other person is infected</div></div>
+        <svg id="room" viewBox="0 0 320 170" role="img" aria-label="Ten people in a room, coloured by expected infections"></svg>
+        <p class="panel" id="rmsg" aria-live="polite"></p>
+      </div>
+    </div>
+    <p class="note">Toy Wells–Riley model: risk = 1 − e^(−quanta × time × mask / clean air). Quanta and room size are made up to show the shape, not real numbers for any pathogen. The humidity penalty for UV follows my reading notes: UV seems to lose much of its effect above roughly 60–70% humidity.</p>
+  </div>
+  <div class="callout"><b>Stockpiles:</b> as of 2022, the US Strategic National Stockpile had only enough N95 respirators to cover essential workers for 10–20 days, and many countries are in a similar or worse position.</div>
+  <div class="refl">
+    <div><span class="tag">From my group doc</span><h4>What I learned</h4><p>Far-UVC clearly kills airborne pathogens at safe doses, but estimates of how easily each pathogen is killed vary by orders of magnitude between studies. Humidity probably matters: conventional UV loses much of its effect above about 60–70% relative humidity. We also need to be careful about sterilising the environment too much, because our immune system is dynamic and needs that stress-testing.</p></div>
+    <div class="q"><span class="tag">From my group doc</span><h4>My open questions</h4><p>What are the long-term health risks, and how does it change our subjective experience?</p></div>
+  </div>
+  <div class="reads" data-r="4"></div>
+  <div class="lab quiz" data-q="4"><div class="lab-title">Check yourself</div></div>
+</section>
+
+<!-- UNIT 5 -->
+<section class="st" id="u5" style="--sc:var(--combat)">
+  <div class="st-head"><div class="eyebrow">Unit 5 · Combat</div><h2>Exiting the pandemic</h2>
+    <p>Medical countermeasures (vaccines and treatments) are usually pathogen-specific but may be the only way out. Time is everything. Options: broad-spectrum drugs and vaccines prepared in advance, platforms like mRNA that can be repurposed fast, and faster trials, financing and manufacturing. A capable adversary might design around existing vaccines, which is why Unit 4's physical barriers still matter.</p></div>
+  <div class="lab">
+    <div class="lab-title">Try it: speed up vaccine development</div>
+    <div class="row" id="mcmopts" role="group" aria-label="Accelerators"></div>
+    <svg id="gantt" viewBox="0 0 860 260" role="img" aria-label="Vaccine development timeline with stages that shrink or overlap as accelerators are switched on"></svg>
+    <div class="stats"><div class="stat"><div class="v" id="days">0</div><div class="s">days from sequence to first doses (toy)</div></div><div class="stat"><div class="v">~326</div><div class="s">COVID-19: genome published Jan 2020 → first authorisation Dec 2020</div></div><div class="stat"><div class="v">100</div><div class="s">CEPI's 100 Days Mission target</div></div></div>
+    <p class="note" id="gnote" aria-live="polite" style="color:var(--combat)"></p>
+    <p class="note">Stage lengths are illustrative. The point is the structure: most of the time goes on sequential steps that can be prepared in advance, run in parallel, or paid for at risk.</p>
+  </div>
+  <div class="refl">
+    <div><span class="tag">From my group doc</span><h4>What I learned</h4><p>mRNA vaccines weren't waiting on a discovery. The idea was proposed in 1988 and the key paper published in 2005, so what was missing was money and belief, not science. Operation Warp Speed invented nothing: it bought six candidates across three platforms, promised to pay even for the failures, and cut the review between phase 2 and phase 3 from six months to three weeks. R&amp;D isn't the problem; we need infrastructure to scale solutions faster and more robustly.</p></div>
+    <div class="q"><span class="tag">From my group doc</span><h4>My open questions</h4><p>D'Souza says the Warp Speed model only works when no scientific breakthrough is needed, so it couldn't have produced mRNA in 2010. What pays for the thirty unfashionable years beforehand? Which platform is in that position right now, and how would we even know?</p></div>
+  </div>
+  <div class="reads" data-r="5"></div>
+  <div class="lab quiz" data-q="5"><div class="lab-title">Check yourself</div></div>
+</section>
+
+<!-- UNIT 6 -->
+<section class="st" id="u6" style="--sc:var(--u6)">
+  <div class="st-head"><div class="eyebrow">Unit 6</div><h2>Contributing to biosecurity</h2>
+    <p>The field is small and multidisciplinary. Many of the tools and organisations a pandemic-proof world needs only exist as drafts. The course's message: if the role you want doesn't exist, build it.</p></div>
+  <div class="lab">
+    <div class="lab-title">Where different backgrounds fit: click one</div>
+    <div class="row" id="roles"></div>
+    <div class="panel" id="roleinfo" aria-live="polite"></div>
+  </div>
+  <div class="refl">
+    <div><span class="tag">From my group doc</span><h4>What will have prevented catastrophic pandemics?</h4><p>Moving from reacting to outbreaks to building continuous, adaptive protection. Better air filtration will have made transmission harder, and surveillance and screening will be able to recognise unfamiliar threats. I'm especially interested in borrowing from biological immunity to build defences that learn, rather than relying on lists of known dangers.</p></div>
+    <div><span class="tag">From my group doc</span><h4>How my thinking changed</h4><p>From pandemic response to the architecture of prevention, and towards building safety directly into AI-enabled biology. The challenge is systems that recognise emerging risks without being so restrictive that they block legitimate research.</p></div>
+    <div class="q"><span class="tag">From my group doc</span><h4>Open questions</h4><p>Biosecurity doesn't have enough people, and it's hard to weigh serious but unlikely long-term risks; it feels like we're placing bets on our future. How do we get more people into the field, and how do we create multidisciplinary environments?</p></div>
+    <div><span class="tag">From my group doc</span><h4>My one-month goal</h4><p>Develop my foundation for embodied AI safety, and apply for biosecurity fellowships. I'd really like to devote my career to this, and I think some of these problems are very tractable.</p></div>
+  </div>
+  <div class="reads" data-r="6"></div>
+</section>
+</main>
+
+<footer>A personal study companion for BlueDot Impact's Biosecurity course. Interactive models use simplified, illustrative numbers to show how each idea works. Reflections are from my own group discussion notes.</footer>
+</div>
+
+<script>
+(function(){
+"use strict";
+const $ = (s, r=document) => r.querySelector(s);
+const $$ = (s, r=document) => Array.from(r.querySelectorAll(s));
+const NS = "http://www.w3.org/2000/svg";
+function s(tag, attrs={}, text){ const n = document.createElementNS(NS, tag); for(const k in attrs) n.setAttribute(k, attrs[k]); if(text != null) n.textContent = text; return n; }
+function el(tag, attrs={}, html){ const n = document.createElement(tag); for(const k in attrs) n.setAttribute(k, attrs[k]); if(html != null) n.innerHTML = html; return n; }
+const fmt = n => n >= 1e9 ? (n/1e9).toFixed(n < 1e10 ? 1 : 0) + " billion" : n >= 1e6 ? (n/1e6).toFixed(n < 1e7 ? 1 : 0) + " million" : n >= 1e3 ? Math.round(n).toLocaleString() : Math.max(1, Math.round(n)).toString();
+
+/* pipe highlight */
+const pl = $$(".pipe a");
+if("IntersectionObserver" in window){
+  const io = new IntersectionObserver(es => es.forEach(e => { if(e.isIntersecting) pl.forEach(a => { const on = a.getAttribute("href") === "#"+e.target.id; a.classList.toggle("on", on); if(on) a.scrollIntoView({block:"nearest", inline:"nearest"}); }); }), {rootMargin:"-30% 0px -60% 0px"});
+  $$("section.st").forEach(x => io.observe(x));
+}
+
+/* layers */
+[["Unit 2","Prevent","Deter and deny: stop the outbreak starting.","var(--prevent)","#u2"],["Unit 3","Detect","Spot it early, even if it's new.","var(--detect)","#u3"],["Unit 4","Withstand","Block transmission and keep society running.","var(--withstand)","#u4"],["Unit 5","Combat","Vaccines and treatments to end it.","var(--combat)","#u5"]].forEach(([n, t, d, c, h]) => {
+  const b = el("button", {type:"button", class:"l4", style:`--lc:${c}`}, `<span class="n">${n}</span><b>${t}</b><span>${d}</span>`);
+  b.addEventListener("click", () => { location.hash = h; }); $("#l4").append(b);
+});
+
+/* deaths chart */
+(function(){
+  const D = [["Smallpox (20th century)",300,300,300],["1918 influenza",50,17,100],["HIV/AIDS (to date)",42,42,42],["Black Death (Europe)",37,25,50],["COVID-19 (excess deaths)",20,15,30],["COVID-19 (reported)",7,7,7]];
+  const svg = $("#deaths"), X = v => 230 + v*1.95;
+  [0,100,200,300].forEach(v => { svg.append(s("path", {d:`M${X(v)} 20 L${X(v)} 240`, style:"stroke:var(--rule)"}), s("text", {x:X(v), y:258, "text-anchor":"middle", style:"fill:var(--muted); font-size:11px"}, v === 0 ? "0" : v + "M")); });
+  D.forEach(([n, mid, lo, hi], i) => {
+    const y = 28 + i*36;
+    const g = s("g", {tabindex:"0", role:"img", "aria-label":`${n}: about ${mid} million${lo !== hi ? `, range ${lo} to ${hi} million` : ""}`, style:"cursor:pointer"});
+    g.append(s("text", {x:220, y:y+15, "text-anchor":"end", style:"font-size:12.5px"}, n), s("rect", {x:230, y, width:Math.max(mid*1.95, 2), height:22, rx:3, style:"fill:var(--u5)"}));
+    if(lo !== hi) g.append(s("path", {d:`M${X(lo)} ${y+11} L${X(hi)} ${y+11} M${X(lo)} ${y+5} L${X(lo)} ${y+17} M${X(hi)} ${y+5} L${X(hi)} ${y+17}`, style:"stroke:var(--ink); stroke-width:1.5"}));
+    g.append(s("text", {x:Math.max(X(hi), X(mid)) + 8, y:y+15, style:"font-size:12px"}, lo !== hi ? `${lo}–${hi}M` : `~${mid}M`));
+    const show = () => { $("#deathnote").textContent = `${n}: about ${mid} million deaths${lo !== hi ? ` (estimates range from ${lo} to ${hi} million)` : ""}.`; };
+    g.addEventListener("mouseenter", show); g.addEventListener("focus", show); g.addEventListener("click", show);
+    svg.append(g);
+  });
+})();
+
+/* levers */
+(function(){
+  const L = [["Deter","Reduce intent","Make people less likely to want to cause harm: norms, education, attribution (so attackers expect to be caught) and international agreements like the Biological Weapons Convention, which has no verification mechanism and only a tiny support unit."],
+    ["Deny","Regulate discovery","Govern risky research before it happens: review of dual-use research, and pausing to ask whether a result should be published at all."],
+    ["Deny","AI model safeguards","Evaluations for biology capabilities, classifiers that block dangerous requests, and filtering training data. The same tools as the AI safety course, aimed at bio."],
+    ["Deny","Secure infrastructure","Screen orders at DNA synthesis companies (who is ordering, and is the sequence of concern?), and secure benchtop synthesisers and cloud labs so they can't be misused."]];
+  const box = $("#levers");
+  L.forEach(([k, t, d], i) => { const b = el("button", {type:"button", class:"btn", "aria-pressed":String(i === 3)}, `${k}: ${t}`);
+    b.addEventListener("click", () => { $$(".btn", box).forEach(x => x.setAttribute("aria-pressed", String(x === b))); $("#leverinfo").innerHTML = `<h5>${k} · ${t}</h5><p>${d}</p>`; }); box.append(b); });
+  $("#leverinfo").innerHTML = `<h5>Deny · Secure infrastructure</h5><p>${L[3][2]}</p>`;
+})();
+
+/* unilateralist */
+(function(){
+  const svg = $("#ucurve");
+  function r(){
+    const n = +$("#un").value, p = +$("#up").value/100; const v = 1 - Math.pow(1-p, n);
+    $("#uno").textContent = n; $("#upo").textContent = (+$("#up").value) + "%"; $("#ur").textContent = (v*100).toFixed(v < .1 ? 1 : 0) + "%";
+    svg.innerHTML = "";
+    svg.append(s("path", {d:"M20 110 L310 110 M20 110 L20 10", style:"stroke:var(--rule)"}));
+    let d = ""; for(let k = 1; k <= 100; k++){ const vv = 1 - Math.pow(1-p, k); d += (k === 1 ? "M" : "L") + (20 + k*2.9).toFixed(1) + " " + (110 - vv*96).toFixed(1); }
+    svg.append(s("path", {d, style:"stroke:var(--prevent); stroke-width:2.4; fill:none"}), s("circle", {cx:20 + n*2.9, cy:110 - v*96, r:5, style:"fill:var(--ink)"}));
+    svg.append(s("text", {x:310, y:126, "text-anchor":"end", style:"fill:var(--muted); font-size:10.5px"}, "number of groups →"), s("text", {x:24, y:20, style:"fill:var(--muted); font-size:10.5px"}, "100%"));
+  }
+  ["#un","#up"].forEach(id => $(id).addEventListener("input", r)); r();
+})();
+
+/* evidence pyramid */
+(function(){
+  const P = [["Real-world evidence","Actual misuse or near-misses. The strongest evidence, and the kind we least want to collect."],["Uplift studies","Compare people working with and without AI on realistic but safe proxy tasks. Expensive, slow and small, but they measure what matters: does AI actually help?"],["Expert-graded tasks & red-teaming","Specialists probe the model and grade open-ended answers. Better than quizzes, but still not the real thing."],["Knowledge benchmarks","Multiple-choice tests of biology knowledge. Cheap and fast, but knowing facts isn't the same as being able to do the work."]];
+  const svg = $("#pyr"); const H = 48;
+  P.forEach(([t, d], i) => { const y = 14 + i*H; const half = 90 + i*75; const g = s("g", {tabindex:"0", role:"button", "aria-label":t, style:"cursor:pointer"});
+    g.append(s("path", {d:`M${430-half} ${y+H-4} L${430-half+38} ${y} L${430+half-38} ${y} L${430+half} ${y+H-4} Z`, style:`fill:color-mix(in srgb, var(--prevent) ${70 - i*15}%, var(--paper)); stroke:var(--paper); stroke-width:2`}), s("text", {x:430, y:y+28, "text-anchor":"middle", style:`font-family:var(--display); font-weight:700; font-size:14px; fill:${i < 2 ? "var(--bg)" : "var(--ink)"}`}, t));
+    const act = () => { $("#pyrinfo").innerHTML = `<h5>${t}</h5><p>${d}</p>`; };
+    g.addEventListener("click", act); g.addEventListener("keydown", e => { if(e.key === "Enter" || e.key === " "){ e.preventDefault(); act(); } });
+    svg.append(g); });
+  svg.append(s("text", {x:850, y:30, "text-anchor":"end", style:"fill:var(--muted); font-size:11px"}, "stronger, rarer ↑"), s("text", {x:850, y:200, "text-anchor":"end", style:"fill:var(--muted); font-size:11px"}, "weaker, cheaper ↓"));
+})();
+
+/* detection sim */
+(function(){
+  const POP = 8e9; const svg = $("#dcurve");
+  function r(){
+    const dbl = +$("#dd").value, share = Math.pow(10, +$("#dt").value)/100, wk = +$("#dr").value;
+    $("#ddo").textContent = dbl + " days"; $("#dto").textContent = (share*100 >= 1 ? (share*100).toFixed(0) : (share*100).toPrecision(1)) + "%"; $("#dro").textContent = wk + (wk === 1 ? " week" : " weeks");
+    const atDet = share*POP; const tDet = Math.log2(atDet) * dbl; const tResp = tDet + wk*7;
+    const atResp = Math.min(POP, Math.pow(2, tResp/dbl));
+    $("#dcases").textContent = fmt(atDet); $("#dresp").textContent = atResp >= POP*.999 ? "everyone" : fmt(atResp);
+    const nd = wk*7/dbl;
+    $("#dmsg").innerHTML = `Detection on day ${Math.round(tDet)}. The response delay lets the outbreak double <b>${nd.toFixed(1)} more times</b>. ${nd > 5 ? "That wastes most of what early detection bought." : nd < 2 ? "Fast response keeps the early-warning advantage." : "Faster response matters as much as earlier detection."}`;
+    svg.innerHTML = "";
+    const T = Math.max(tResp*1.15, 60); const X = t => 60 + t/T*780; const Y = v => 190 - Math.log10(Math.max(v,1))/Math.log10(POP)*170;
+    [1,1e3,1e6,1e9].forEach(v => svg.append(s("path", {d:`M60 ${Y(v)} L840 ${Y(v)}`, style:"stroke:var(--rule)"}), s("text", {x:54, y:Y(v)+4, "text-anchor":"end", style:"fill:var(--muted); font-size:10.5px"}, v === 1 ? "1" : v === 1e3 ? "1k" : v === 1e6 ? "1M" : "1B")));
+    let d = ""; for(let i = 0; i <= 200; i++){ const t = T*i/200; const v = Math.min(POP, Math.pow(2, t/dbl)); d += (i ? "L" : "M") + X(t).toFixed(1) + " " + Y(v).toFixed(1); }
+    svg.append(s("path", {d, style:"stroke:var(--u5); stroke-width:2.4; fill:none"}));
+    svg.append(s("path", {d:`M${X(tDet)} 14 L${X(tDet)} 190`, style:"stroke:var(--detect); stroke-width:2; stroke-dasharray:4 3"}), s("text", {x:X(tDet)-4, y:24, "text-anchor":"end", style:"fill:var(--detect); font-size:11.5px"}, "detected"));
+    svg.append(s("path", {d:`M${X(tResp)} 14 L${X(tResp)} 190`, style:"stroke:var(--withstand); stroke-width:2; stroke-dasharray:4 3"}), s("text", {x:X(tResp)+4, y:24, style:"fill:var(--withstand); font-size:11.5px"}, "response"));
+    svg.append(s("text", {x:840, y:210, "text-anchor":"end", style:"fill:var(--muted); font-size:10.5px"}, `days → (0–${Math.round(T)})`), s("text", {x:66, y:12, style:"fill:var(--muted); font-size:10.5px"}, "people infected (log scale)"));
+  }
+  ["#dd","#dt","#dr"].forEach(id => $(id).addEventListener("input", r)); r();
+})();
+
+/* scenarios */
+(function(){
+  const S = [
+   {t:"Novel coronavirus, camel farm, northern Kenya", now:["The herders who are first infected are never found: northern Kenya is too far from anywhere that could test them.","The first signal is a negative result. A patient reaches Nairobi with severe pneumonia, and a standard respiratory panel comes back negative for every target. Two of those in one intensive care unit makes someone pick up the phone. National labs sequence it and find a new betacoronavirus. This is how MERS was found in 2012.","It might be found abroad first, in a traveller who gets sick in Dubai or London. With a doubling time of 2–3 days, that's six to eight weeks, and it's on four continents before the first genome is public."],
+    better:["Sequencing is the ordinary first test. At ten dollars and under an hour, a herder with a fever gets sequenced at the county hospital for the same reason they'd get a malaria rapid test today.","The device flags a virus that has no business being in a human sample and escalates within minutes. No person had to decide it was interesting.","Aircraft wastewater at major hubs confirms spread on day one, not after weeks of travel histories. Routine sequencing of animals at livestock markets might catch it before any human case.","The limit: you find it at hundreds of cases instead of thousands. If the response still takes three weeks, you've spent every doubling you just bought."]},
+   {t:"Novel stealth pathogen, spreading through three hub cities", now:["For years nothing happens. A few pathogen-agnostic programmes exist, but none sits at these airports.","The likeliest catch is an accident: a transplant patient gets severe disease early, every panel is negative, and eventually someone runs metagenomics. Whether anyone generalises from one strange case to 'this is in everybody' is a coin flip.","Otherwise detection is the harm itself, arriving everywhere at once. Detection happens at close to 100% incidence; Kaufman's target is 1%."],
+    better:["Pooled nasal-swab sequencing runs continuously in all three hub cities, alongside aircraft wastewater. Kaufman names parallel organisations abroad as a top gap, and this is why.","The flag is 'new and growing', not 'dangerous': a sequence absent from all background samples whose share climbs week on week.","The decisive clue is that it climbs at three unrelated sites at once. Cross-site correlation turns a strange read into an alarm.","Escalation is a pipeline, not a judgement call: a flag triggers genome completion and then analysis of whether it looks engineered."]}
+  ];
+  const box = $("#scen");
+  S.forEach(sc => { const d = el("div"); d.innerHTML = `<h4>${sc.t}</h4><div class="seg" role="group" aria-label="Which world"><button type="button" aria-pressed="true">Today</button><button type="button" aria-pressed="false">With better detection</button></div><div class="txt" style="display:grid; gap:8px" aria-live="polite"></div>`;
+    const [a, b] = $$("button", d), txt = $(".txt", d);
+    const set = better => { a.setAttribute("aria-pressed", String(!better)); b.setAttribute("aria-pressed", String(better)); txt.innerHTML = (better ? sc.better : sc.now).map(p => `<p>${p}</p>`).join(""); };
+    a.addEventListener("click", () => set(false)); b.addEventListener("click", () => set(true)); set(false); box.append(d); });
+})();
+
+/* room model */
+(function(){
+  let mask = 1; const svg = $("#room");
+  $$("[data-m]").forEach(b => b.addEventListener("click", () => { mask = +b.dataset.m; $$("[data-m]").forEach(x => x.setAttribute("aria-pressed", String(x === b))); r(); }));
+  function r(){
+    const ach = +$("#ach").value, hepa = +$("#hepa").value, rh = +$("#rh").value; let uv = +$("#uvc").value;
+    const uvEff = rh <= 60 ? 1 : Math.max(.35, 1 - (rh - 60)*.025);
+    $("#acho").textContent = ach; $("#hepao").textContent = hepa; $("#uvco").textContent = uv + (rh > 60 && uv ? ` (≈${(uv*uvEff).toFixed(0)} at this humidity)` : ""); $("#rho").textContent = rh + "%";
+    const total = ach + hepa + uv*uvEff; const V = 100, q = 8, t = 2;
+    const dose = q * t * mask * mask / (V * total / 60) / 60 * 6;
+    const p = 1 - Math.exp(-dose);
+    $("#prisk").textContent = (p*100).toFixed(p < .1 ? 1 : 0) + "%";
+    svg.innerHTML = "";
+    svg.append(s("rect", {x:4, y:4, width:312, height:162, rx:10, style:"fill:var(--bg); stroke:var(--rule)"}));
+    const exp = p*9; let seed = 7; const rnd = () => (seed = (seed*9301 + 49297) % 233280) / 233280;
+    const ill = new Set(); const order = [...Array(9).keys()].sort(() => rnd() - .5); for(let k = 0; k < Math.round(exp); k++) ill.add(order[k]);
+    for(let i = 0; i < 10; i++){ const x = 40 + (i % 5)*60, y = 55 + Math.floor(i/5)*65;
+      const col = i === 0 ? "var(--bad)" : ill.has(i-1) ? "var(--warn)" : "var(--withstand)";
+      svg.append(s("circle", {cx:x, cy:y-12, r:9, style:`fill:${col}`}), s("rect", {x:x-11, y:y, width:22, height:22, rx:7, style:`fill:${col}`}));
+      if(i === 0) svg.append(s("text", {x, y:y+38, "text-anchor":"middle", style:"fill:var(--bad); font-size:10px"}, "infected")); }
+    $("#rmsg").innerHTML = `Clean air totals <b>${total.toFixed(1)}</b> air changes per hour. Expected new infections among the other 9: <b>${(p*9).toFixed(1)}</b>. ${total < 4 ? "Typical of a poorly ventilated office." : total > 15 ? "Like a well-protected space: layers add up." : "Each layer adds up; none is enough alone."}`;
+  }
+  ["#ach","#hepa","#uvc","#rh"].forEach(id => $(id).addEventListener("input", r)); r();
+})();
+
+/* vaccine gantt */
+(function(){
+  const STG = [["Design vaccine",30],["Preclinical tests",60],["Phase 1",60],["Phase 2",90],["Phase 3",120],["Regulatory review",40],["Manufacture at scale",90]];
+  const ACC = [
+    {k:"platform", n:"mRNA platform ready", d:"Design in days, not weeks", f:(s) => { s[0][1] = 3; s[1][1] = 30; }},
+    {k:"library", n:"Prototype vaccines for virus families", d:"Preclinical work done in advance", f:(s) => { s[1][1] = Math.min(s[1][1], 10); }},
+    {k:"overlap", n:"Overlap trial phases", d:"Seamless phase 1/2/3 designs", f:null},
+    {k:"risk", n:"Manufacture at risk", d:"Pay to build doses before approval (Warp Speed)", f:null},
+    {k:"review", n:"Rolling review", d:"Regulators read data as it arrives", f:(s) => { s[5][1] = 10; }}
+  ];
+  const on = new Set(); const box = $("#mcmopts");
+  ACC.forEach(a => { const b = el("button", {type:"button", class:"chip", "aria-pressed":"false", title:a.d}, a.n); b.addEventListener("click", () => { on.has(a.k) ? on.delete(a.k) : on.add(a.k); b.setAttribute("aria-pressed", String(on.has(a.k))); r(); }); box.append(b); });
+  const svg = $("#gantt");
+  function r(){
+    const st = STG.map(x => [x[0], x[1]]); ACC.forEach(a => { if(on.has(a.k) && a.f) a.f(st); });
+    const start = []; let t = 0;
+    st.forEach(([n, d], i) => {
+      if(on.has("overlap") && (i === 3 || i === 4)){ start[i] = start[i-1] + st[i-1][1]*.4; }
+      else if(i === 6 && on.has("risk")){ start[i] = start[3]; }
+      else if(i === 6){ start[i] = start[5] + st[5][1]; }
+      else start[i] = i ? Math.max(...start.slice(0, i).map((s0, j) => s0 + st[j][1])) : 0;
+    });
+    const end = Math.max(...st.map(([n, d], i) => start[i] + d));
+    $("#days").textContent = Math.round(end); const gn = $("#gnote"); if(gn) gn.textContent = on.size === 5 ? "Even with every lever pulled, trials set the floor. That is the subject of The clinical trial bottlenecks game." : "";
+    svg.innerHTML = ""; const X = d => 190 + d/560*650;
+    [0,100,200,300,400,500].forEach(v => svg.append(s("path", {d:`M${X(v)} 10 L${X(v)} 236`, style:"stroke:var(--rule)"}), s("text", {x:X(v), y:252, "text-anchor":"middle", style:"fill:var(--muted); font-size:10.5px"}, v + "d")));
+    svg.append(s("path", {d:`M${X(100)} 10 L${X(100)} 236`, style:"stroke:var(--accent); stroke-width:2; stroke-dasharray:5 4"}), s("text", {x:X(100)+4, y:20, style:"fill:var(--accent); font-size:10.5px"}, "100 days"));
+    st.forEach(([n, d], i) => { const y = 14 + i*31; svg.append(s("text", {x:182, y:y+16, "text-anchor":"end", style:"font-size:12px"}, n), s("rect", {x:X(start[i]), y, width:Math.max(d/560*650, 3), height:22, rx:4, style:`fill:${i === 6 ? "var(--combat)" : "var(--u1)"}; transition:all .3s`})); });
+    svg.append(s("path", {d:`M${X(end)} 10 L${X(end)} 236`, style:"stroke:var(--ink); stroke-width:2"}), s("text", {x:Math.min(X(end)+4, 800), y:236, style:"font-size:11px"}, "doses"));
+  }
+  r();
+})();
+
+/* roles */
+(function(){
+  const R = [["Technical / AI","Biology evals for AI models, safeguards and classifiers, screening tools for DNA synthesis, and metagenomic analysis pipelines."],["Builders","Start the organisations that don't exist yet: cheap diagnostics, far-UVC deployment, PPE supply, early-warning networks."],["Scientists","Deep expertise in aerosol science, immunology or synthetic biology that policy and builders rely on, e.g. far-UVC safety studies or broad-spectrum antivirals."],["Policy","Governing dual-use research, funding public goods like stockpiles, strengthening the Biological Weapons Convention, and synthesis-screening rules."],["Anyone","The course's point: biosecurity talent comes from fields that look nothing like it. Start with a small project, a rapid grant, or a fellowship."]];
+  const box = $("#roles");
+  R.forEach(([t, d], i) => { const b = el("button", {type:"button", class:"btn", "aria-pressed":String(i === 0)}, t); b.addEventListener("click", () => { $$(".btn", box).forEach(x => x.setAttribute("aria-pressed", String(x === b))); $("#roleinfo").innerHTML = `<h5>${t}</h5><p>${d}</p>`; }); box.append(b); });
+  $("#roleinfo").innerHTML = `<h5>${R[0][0]}</h5><p>${R[0][1]}</p>`;
+})();
+
+/* readings */
+const RD = {
+ 1:[["Info hazard guidance for biosecurity discussions","Chris Bakerlee & Tessa Alexanian · 2024","How to discuss biosecurity without spreading dangerous specifics."],["What were the death tolls from pandemics in history?","Saloni Dattani · 2023","Pandemics in historical perspective, and why estimates vary so widely."],["Mother Nature is not 'the ultimate bioterrorist'","Chris Bakerlee · 2021","Natural pathogens aren't optimised for harm, so they're not the worst case."],["Nature Sets a Baseline, Not a Ceiling, for Biological Harm","Becca Chandler Bostock · 2026","Why engineered risks can exceed natural ones."],["How AI could enable catastrophic pandemics","Will Saunter · 2025","Where AI might change biological risk."],["Securing Civilisation Against Catastrophic Pandemics","Gopal, Bradshaw, Sunil & Esvelt · 2023","A defence-first agenda: delay, detect, defend."],["Mirror Life: Brief of the Scientific Advisory Board","UN Scientific Advisory Board · 2026","Why mirror-image organisms are a distinctive risk."],["Pandemic prevention as fire-fighting","Richard Williamson · 2022","Learning from how societies made fire rare."]],
+ 2:[["When Should We Worry About AI Being Used to Design a Pathogen?","Manheim, Williams, Aveggio & Berke · 2025","What AI can and can't do in biology today."],["Horsepox Synthesis: A case of the unilateralist's curse?","Gregory Lewis · 2018","A controversial publication and the idea of the unilateralist's curse."],["The role of evals in the biorisk evidence hierarchy","SecureBio & Jasper Götting · 2026","What different kinds of evaluation can and can't tell us."],["Biological Weapons Convention","Wikipedia · 2025","The treaty, and its lack of verification."],["Why do we take LLMs seriously as a potential source of biorisk?","Anthropic · 2025","A lab's reasoning for its bio safeguards."],["Evaluating Safety and Security in Biological Research","Williams et al. · 2025","How research oversight works in practice."],["How to stop bioterrorists from buying dangerous DNA","Batalis & Venkatram · 2025","DNA synthesis screening and its gaps."]],
+ 3:[["State of Pandemic Early Warning","Jeff Kaufman · 2026","Where pathogen-agnostic detection stands, and the biggest gaps."]],
+ 4:[["The Four Pillars: A Hypothesis for Countering Catastrophic Biological Risk","Andrew Snyder-Beattie · 2025","A funder's framework for biodefence, including PPE and biohardening."],["Innovate and Stockpile: Respiratory Protection for Essential Workers","Montazeri & Sandbrink · 2023","Keeping essential workers safe in a catastrophic pandemic."],["Indoor Air Quality Is the Next Great Public Health Challenge","Cambeiro & Potter · 2023","Clean indoor air as public health infrastructure."],["Far-UVC","Jeff Kaufman · 2025","What far-UVC is and what we still don't know."],["Flipping the switch on far-UVC","Richard Williamson · 2025","Getting from promising evidence to deployment."]],
+ 5:[["Day Zero Antivirals for Future Pandemics","Brian Wang · 2024","Broad-spectrum antivirals ready before the pathogen is known."],["Accelerating Vaccine Development: The 100 Days Mission","Aatresh, Lurie & Hatchett · 2024","CEPI's plan for vaccines within 100 days."],["The clinical trial bottlenecks game","Saloni Dattani · 2026","Where trials lose time, and how to get it back."]],
+ 6:[["Become a person who Actually Does Things","Neel Nanda · 2022","Bias towards action."],["How to be more agentic","Cate Hall · 2024","Practical habits for taking initiative."]]
+};
+$$(".reads").forEach(box => { const u = box.dataset.r; (RD[u] || []).forEach(([t, by, d]) => {
+  const q = encodeURIComponent(`"${t}" ${by.split("·")[0].trim()}`);
+  box.append(el("details", {class:"rd"}, `<summary><b>${t}</b><span>${by}</span></summary><div class="body"><p>${d}</p><a href="https://duckduckgo.com/?q=${q}" target="_blank" rel="noopener">Search for it ↗</a></div>`)); });
+  box.before(el("div", {class:"lab-title", style:"margin-top:28px"}, "Key readings · click to expand"));
+});
+
+/* quizzes */
+const QZ = {
+ 1:[["Why does the course say nature is not the 'ultimate bioterrorist'?",["Natural pathogens are always mild","Natural pathogens aren't optimised for harm, so they set a floor, not a ceiling","Engineered pathogens are impossible","Pandemics are rare"],1,"Nature sets a baseline. Engineered or novel agents (like mirror life) needn't respect it."],["What's the main lesson of 'pandemic prevention as fire-fighting'?",["Hire more fire-fighters","Build a world where outbreaks can't spread far, through standards, alarms and equipment","Pandemics are like wildfires and can't be stopped","Only vaccines matter"],1,"Fire became rare through boring infrastructure. The same could work for pandemics."]],
+ 2:[["Twenty labs could each decide alone to publish a risky result, each with a 5% chance of misjudging. Roughly how likely is it that at least one publishes?",["5%","About 64%","100%","1%"],1,"1 − 0.95²⁰ ≈ 0.64. That's the unilateralist's curse."],["Which is a 'deny' intervention?",["Raising awareness of norms","DNA synthesis screening","Attribution","Diplomacy"],1,"Deny removes the means; deter reduces the intent."],["Why are uplift studies higher in the evidence hierarchy than knowledge benchmarks?",["They're cheaper","They test whether AI actually helps people do the task, not just whether it knows facts","They use more questions","They're automated"],1,"Knowing facts isn't the same as being able to do the work."]],
+ 3:[["Why is metagenomic sequencing promising for early warning?",["It only looks for known pathogens","It reads all DNA and RNA in a sample, so it can flag things nobody knew to look for","It replaces vaccines","It's free"],1,"Pathogen-agnostic detection is key for novel or engineered threats."],["With a 3-day doubling time, how much does a 3-week response delay cost?",["Nothing","About 7 doublings, roughly 128× more infections","One doubling","It depends on the vaccine"],1,"21 ÷ 3 = 7 doublings, and 2⁷ = 128. Fast response matters as much as early detection."]],
+ 4:[["Why are NPIs valuable early in a pandemic?",["They target one specific pathogen","They mostly work whatever the pathogen, so they can be prepared in advance","They're always cheap","They replace vaccines"],1,"Pathogen-agnostic means ready on day one."],["Which happens to conventional UV as humidity rises above about 60–70%?",["It gets stronger","It loses much of its effect","Nothing","It becomes unsafe"],1,"One reason estimates vary so much between studies."]],
+ 5:[["What did Operation Warp Speed mainly change?",["It invented mRNA","It funded many candidates in parallel and paid even for failures, cutting waiting time","It skipped safety trials","It only used one platform"],1,"Money and parallel bets, not new science."],["Why can't we rely only on vaccines against a sophisticated attack?",["Vaccines don't work","An adversary could design around existing vaccines or release multiple variants","Vaccines are too cheap","They're too fast"],1,"That's why physical barriers (Unit 4) remain essential."]]
+};
+$$(".quiz").forEach(box => { const u = box.dataset.q; (QZ[u] || []).forEach(([q, o, a, w], i) => {
+  const d = el("div", {class:"qq"}, `<p class="stem">${i+1}. ${q}</p>`); const why = el("p", {class:"why", hidden:""});
+  const bs = o.map((t, j) => { const b = el("button", {type:"button", class:"opt"}); b.textContent = t; b.addEventListener("click", () => { bs.forEach((x, k) => { x.disabled = true; if(k === a) x.classList.add("right"); else if(k === j) x.classList.add("wrong"); }); why.innerHTML = `<b>${j === a ? "Right." : "Not quite."}</b> ${w}`; why.hidden = false; }); return b; });
+  bs.forEach(b => d.append(b)); d.append(why); box.append(d); }); });
+})();
+</script>
+</body>
+</html>
