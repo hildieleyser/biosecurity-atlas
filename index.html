@@ -230,7 +230,7 @@ p.panel{display:block}
 <header class="mast">
   <div class="eyebrow">BlueDot Impact · Biosecurity · study companion</div>
   <h1>Biosecurity Atlas</h1>
-  <p class="lede">The course in one idea: stack defences so a pandemic has to get past every one of them. Prevent it starting, detect it early, withstand the spread, and combat it with medicine. Click a layer to jump to its unit.</p>
+  <p class="lede">The whole course comes down to one idea. Stack your defences so that a pandemic has to get past every one of them. The four layers are below, and you can click one to jump to its unit.</p>
   <div class="layers4" id="l4"></div>
 </header>
 
@@ -251,13 +251,13 @@ p.panel{display:block}
   <div class="st-head"><div class="eyebrow">Unit 1</div><h2>Building a pandemic-proof world</h2>
     <p>Pandemics have been among the deadliest events in history. New tools in synthetic biology and AI could make deliberate or accidental outbreaks worse than anything nature produces. Nature sets a baseline, not a ceiling.</p></div>
   <div class="lab">
-    <div class="lab-title">Deaths from major pandemics (approximate; estimates vary widely)</div>
+    <div class="lab-title">Deaths from major pandemics · rough estimates that vary widely</div>
     <svg id="deaths" viewBox="0 0 860 270" role="img" aria-label="Approximate death tolls: smallpox in the 20th century about 300 million, 1918 flu 17 to 100 million, HIV about 42 million, Black Death in Europe 25 to 50 million, COVID-19 about 7 million reported and 20 million or more excess deaths"></svg>
     <p class="note" id="deathnote" aria-live="polite">Hover or tap a bar for the range.</p>
   </div>
   <div class="prose">
     <p><b>Is nature still the worst bioterrorist?</b> The course argues no. Natural pathogens aren't optimised to harm people, so they're a floor on what's possible. Engineered agents, and new risks like mirror life, don't have to respect that floor.</p>
-    <p><b>Fire-fighting, not just fire-fighters:</b> like fire safety, the goal is a world where outbreaks can't spread far, through building standards, early alarms and ready equipment, not just heroic response.</p>
+    <p><b>Prevention as fire safety.</b> Fires became rare not because of braver fire-fighters but because of boring infrastructure. Building codes and smoke alarms did most of the work. The course argues that pandemics could go the same way, and I find that one of the most hopeful ideas in it.</p>
   </div>
   <div class="refl">
     <div><span class="tag">From my group doc</span><h4>My takeaways</h4><p>AI and nature will co-create risk in the future. The dichotomy is false. Agency in the face of these risks is crucial.</p></div>
@@ -270,15 +270,15 @@ p.panel{display:block}
 <!-- UNIT 2 -->
 <section class="st" id="u2" style="--sc:var(--prevent)">
   <div class="st-head"><div class="eyebrow">Unit 2 · Prevent</div><h2>Preventing engineered pandemics</h2>
-    <p>Delay patient zero. The course splits prevention into <b>deterring</b> people who might cause harm and <b>denying</b> them the means, through rules on risky research, safeguards in AI models and screening at research infrastructure like DNA synthesis.</p></div>
+    <p>Delay patient zero. The course splits prevention into <b>deterring</b> people who might cause harm and <b>denying</b> them the means. Denying covers everything from rules on risky research to screening DNA orders.</p></div>
   <div class="lab">
-    <div class="lab-title">The four prevention levers: click one</div>
+    <div class="lab-title">The four prevention levers · click one</div>
     <div class="row" id="levers"></div>
     <div class="panel" id="leverinfo" aria-live="polite"></div>
   </div>
   <div class="lab">
-    <div class="lab-title">The unilateralist's curse: drag the sliders</div>
-    <p style="max-width:70ch">If many groups could each decide alone to do something risky (like publish a dangerous method), it only takes one to misjudge. The more groups, the more likely <i>someone</i> goes ahead, even if each is careful. The horsepox synthesis paper is the course's example.</p>
+    <div class="lab-title">The unilateralist's curse · drag the sliders</div>
+    <p style="max-width:70ch">Imagine many groups who could each decide alone to publish a dangerous method. It only takes one of them to misjudge. The more groups there are, the more likely it is that <i>someone</i> goes ahead, even if each one is careful. The course's example is the horsepox synthesis paper.</p>
     <div class="two">
       <div style="display:grid; gap:12px">
         <div class="ctl"><label for="un">groups who could act alone <output id="uno">10</output></label><input type="range" id="un" min="1" max="100" step="1" value="10"></div>
@@ -286,7 +286,7 @@ p.panel{display:block}
       </div>
       <div style="display:grid; gap:6px"><div class="stat"><div class="v" id="ur">0%</div><div class="s">chance at least one goes ahead</div></div><svg id="ucurve" viewBox="0 0 320 130" role="img" aria-label="Chance of at least one actor going ahead rises with the number of actors"></svg></div>
     </div>
-    <p class="note">1 − (1 − p)ⁿ. Fixes: norms of consulting before publishing, shared review, and making the riskiest steps require many hands.</p>
+    <p class="note">The chance is 1 − (1 − p)ⁿ. The fix is to make sure nobody decides alone, by building a norm of consulting others before publishing.</p>
   </div>
   <div class="lab">
     <div class="lab-title">How strong is the evidence about AI biorisk? Click a level</div>
@@ -304,9 +304,9 @@ p.panel{display:block}
 <!-- UNIT 3 -->
 <section class="st" id="u3" style="--sc:var(--detect)">
   <div class="st-head"><div class="eyebrow">Unit 3 · Detect</div><h2>Detecting early infections</h2>
-    <p>Prevention failed and someone is infected. Detection has three jobs: notice something is spreading (hard if it's novel or spreads without symptoms), characterise it, then find cases and contain them. Pathogen-agnostic tools like metagenomic sequencing read every DNA and RNA fragment in a sample, so they can flag things nobody knew to look for.</p></div>
+    <p>Prevention has failed and someone is infected. The first job is noticing that something is spreading at all, which is hardest when it's new or spreads without symptoms. Then you need to work out what it is and start finding cases. Pathogen-agnostic tools like metagenomic sequencing read every fragment of DNA and RNA in a sample, so they can flag things nobody knew to look for.</p></div>
   <div class="lab">
-    <div class="lab-title">Try it: every doubling you buy matters</div>
+    <div class="lab-title">Try it · every doubling you buy matters</div>
     <div class="two">
       <div style="display:grid; gap:12px">
         <div class="ctl"><label for="dd">doubling time <output id="ddo">3 days</output></label><input type="range" id="dd" min="1.5" max="10" step="0.5" value="3"></div>
@@ -319,13 +319,13 @@ p.panel{display:block}
       </div>
     </div>
     <svg id="dcurve" viewBox="0 0 860 220" role="img" aria-label="Cumulative infections growing exponentially with markers for detection and response"></svg>
-    <p class="note">Toy model: simple exponential growth in a population of 8 billion, ignoring immunity and behaviour change. Kaufman's target for early warning is flagging a new pathogen before about 1% of people have been infected.</p>
+    <p class="note">This is a toy model of simple exponential growth in a population of 8 billion. It ignores immunity and behaviour change. Kaufman's target for early warning is flagging a new pathogen before about 1% of people have been infected.</p>
   </div>
   <h3 style="margin-top:36px; font-family:var(--display); font-size:24px">My outbreak scenarios</h3>
-  <p style="max-width:70ch; margin-top:8px; color:var(--muted)">From the group exercise: how would each outbreak be found today, and how could it be found with better systems? Toggle between the two.</p>
+  <p style="max-width:70ch; margin-top:8px; color:var(--muted)">These come from a group exercise. For each outbreak we asked how it would be found today, and how it could be found with better systems. Toggle between the two.</p>
   <div class="scen" id="scen"></div>
   <div class="refl">
-    <div><span class="tag">From my group doc</span><h4>What I learned</h4><p>The balance between institutional failures and technical failures, solutions and capabilities. Societal influences seem really significant, which is a bit disappointing because the fixes feel less tractable and less inspiring. The emerging technologies are really exciting, but there's still an uphill battle to make cheap, widely deployable consumables. Synthetic biology could help there.</p></div>
+    <div><span class="tag">From my group doc</span><h4>What I learned</h4><p>The balance between institutional failures and technical ones. Societal influences seem really significant, which is a bit disappointing because the fixes feel less tractable and less inspiring. The emerging technologies are really exciting, but there's still an uphill battle to make cheap, widely deployable consumables. Synthetic biology could help there.</p></div>
     <div class="q"><span class="tag">From my group doc</span><h4>My open questions</h4><p>What's the role of trust, both in public warnings and in technologies like vaccines? Trust was really eroded during COVID, and more so since as more information has come out. I fear this will have long-term effects.</p></div>
   </div>
   <div class="reads" data-r="3"></div>
@@ -335,14 +335,14 @@ p.panel{display:block}
 <!-- UNIT 4 -->
 <section class="st" id="u4" style="--sc:var(--withstand)">
   <div class="st-head"><div class="eyebrow">Unit 4 · Withstand</div><h2>Blocking transmission</h2>
-    <p>Non-pharmaceutical interventions (NPIs) mostly work whatever the pathogen, so they can be ready in advance and deployed within hours. Lockdowns are blunt; the course focuses on protecting essential workers with PPE and making indoor air safer with ventilation, filtration and far-UVC light.</p></div>
+    <p>Non-pharmaceutical interventions mostly work whatever the pathogen, so they can be ready in advance and used within hours. Lockdowns are blunt. The course focuses instead on protecting essential workers with good masks, and on making indoor air safer with ventilation and far-UVC light.</p></div>
   <div class="lab">
-    <div class="lab-title">Try it: one infected person in a meeting room for 2 hours</div>
+    <div class="lab-title">Try it · one infected person in a meeting room for 2 hours</div>
     <div class="two">
       <div style="display:grid; gap:12px">
-        <div class="ctl"><label for="ach">ventilation (air changes per hour) <output id="acho">2</output></label><input type="range" id="ach" min="0.5" max="12" step="0.5" value="2"></div>
-        <div class="ctl"><label for="hepa">air purifier (equivalent air changes) <output id="hepao">0</output></label><input type="range" id="hepa" min="0" max="12" step="0.5" value="0"></div>
-        <div class="ctl"><label for="uvc">far-UVC (equivalent air changes) <output id="uvco">0</output></label><input type="range" id="uvc" min="0" max="30" step="1" value="0"></div>
+        <div class="ctl"><label for="ach">ventilation, air changes per hour <output id="acho">2</output></label><input type="range" id="ach" min="0.5" max="12" step="0.5" value="2"></div>
+        <div class="ctl"><label for="hepa">air purifier, equivalent air changes <output id="hepao">0</output></label><input type="range" id="hepa" min="0" max="12" step="0.5" value="0"></div>
+        <div class="ctl"><label for="uvc">far-UVC, equivalent air changes <output id="uvco">0</output></label><input type="range" id="uvc" min="0" max="30" step="1" value="0"></div>
         <div class="ctl"><label for="rh">relative humidity <output id="rho">45%</output></label><input type="range" id="rh" min="20" max="90" step="5" value="45"></div>
         <div class="row" role="group" aria-label="Masks"><span class="note">Everyone wears:</span><button class="chip" type="button" aria-pressed="true" data-m="1">no mask</button><button class="chip" type="button" aria-pressed="false" data-m="0.5">surgical mask</button><button class="chip" type="button" aria-pressed="false" data-m="0.1">well-fitted N95</button></div>
       </div>
@@ -352,11 +352,11 @@ p.panel{display:block}
         <p class="panel" id="rmsg" aria-live="polite"></p>
       </div>
     </div>
-    <p class="note">Toy Wells–Riley model: risk = 1 − e^(−quanta × time × mask / clean air). Quanta and room size are made up to show the shape, not real numbers for any pathogen. The humidity penalty for UV follows my reading notes: UV seems to lose much of its effect above roughly 60–70% humidity.</p>
+    <p class="note">This is a toy version of the Wells Riley model. Risk rises with how infectious the air is and how long you stay, and falls with how much clean air you get. The room size and infectiousness are made up to show the shape, not real numbers for any pathogen. The humidity penalty for UV comes from my reading notes, which suggest UV loses much of its effect above about 60 to 70% humidity.</p>
   </div>
-  <div class="callout"><b>Stockpiles:</b> as of 2022, the US Strategic National Stockpile had only enough N95 respirators to cover essential workers for 10–20 days, and many countries are in a similar or worse position.</div>
+  <div class="callout"><b>Stockpiles:</b> as of 2022, the US Strategic National Stockpile had only enough N95 respirators to cover essential workers for 10 to 20 days, and many countries are in a similar or worse position.</div>
   <div class="refl">
-    <div><span class="tag">From my group doc</span><h4>What I learned</h4><p>Far-UVC clearly kills airborne pathogens at safe doses, but estimates of how easily each pathogen is killed vary by orders of magnitude between studies. Humidity probably matters: conventional UV loses much of its effect above about 60–70% relative humidity. We also need to be careful about sterilising the environment too much, because our immune system is dynamic and needs that stress-testing.</p></div>
+    <div><span class="tag">From my group doc</span><h4>What I learned</h4><p>Far-UVC clearly kills airborne pathogens at safe doses, but estimates of how easily each pathogen is killed vary by orders of magnitude between studies. Humidity probably matters. Conventional UV loses much of its effect above about 60 to 70% relative humidity. We also need to be careful about sterilising the environment too much, because our immune system is dynamic and needs that stress-testing.</p></div>
     <div class="q"><span class="tag">From my group doc</span><h4>My open questions</h4><p>What are the long-term health risks, and how does it change our subjective experience?</p></div>
   </div>
   <div class="reads" data-r="4"></div>
@@ -366,17 +366,17 @@ p.panel{display:block}
 <!-- UNIT 5 -->
 <section class="st" id="u5" style="--sc:var(--combat)">
   <div class="st-head"><div class="eyebrow">Unit 5 · Combat</div><h2>Exiting the pandemic</h2>
-    <p>Medical countermeasures (vaccines and treatments) are usually pathogen-specific but may be the only way out. Time is everything. Options: broad-spectrum drugs and vaccines prepared in advance, platforms like mRNA that can be repurposed fast, and faster trials, financing and manufacturing. A capable adversary might design around existing vaccines, which is why Unit 4's physical barriers still matter.</p></div>
+    <p>Vaccines and treatments are usually specific to one pathogen, but they may be the only way out of a pandemic. Speed is everything. Some drugs and vaccines can be prepared in advance to work across whole families of viruses, and platforms like mRNA can be repurposed fast. A capable adversary might design around existing vaccines, though, which is why the physical barriers from Unit 4 still matter.</p></div>
   <div class="lab">
-    <div class="lab-title">Try it: speed up vaccine development</div>
+    <div class="lab-title">Try it · speed up vaccine development</div>
     <div class="row" id="mcmopts" role="group" aria-label="Accelerators"></div>
     <svg id="gantt" viewBox="0 0 860 260" role="img" aria-label="Vaccine development timeline with stages that shrink or overlap as accelerators are switched on"></svg>
-    <div class="stats"><div class="stat"><div class="v" id="days">0</div><div class="s">days from sequence to first doses (toy)</div></div><div class="stat"><div class="v">~326</div><div class="s">COVID-19: genome published Jan 2020 → first authorisation Dec 2020</div></div><div class="stat"><div class="v">100</div><div class="s">CEPI's 100 Days Mission target</div></div></div>
+    <div class="stats"><div class="stat"><div class="v" id="days">0</div><div class="s">days from genome to first doses in this toy model</div></div><div class="stat"><div class="v">~326</div><div class="s">COVID-19, from genome in January 2020 to first authorisation in December</div></div><div class="stat"><div class="v">100</div><div class="s">CEPI's 100 Days Mission target</div></div></div>
     <p class="note" id="gnote" aria-live="polite" style="color:var(--combat)"></p>
-    <p class="note">Stage lengths are illustrative. The point is the structure: most of the time goes on sequential steps that can be prepared in advance, run in parallel, or paid for at risk.</p>
+    <p class="note">The stage lengths are illustrative. What matters is the structure. Most of the time goes on steps done one after another, and many of them could be prepared in advance or run in parallel.</p>
   </div>
   <div class="refl">
-    <div><span class="tag">From my group doc</span><h4>What I learned</h4><p>mRNA vaccines weren't waiting on a discovery. The idea was proposed in 1988 and the key paper published in 2005, so what was missing was money and belief, not science. Operation Warp Speed invented nothing: it bought six candidates across three platforms, promised to pay even for the failures, and cut the review between phase 2 and phase 3 from six months to three weeks. R&amp;D isn't the problem; we need infrastructure to scale solutions faster and more robustly.</p></div>
+    <div><span class="tag">From my group doc</span><h4>What I learned</h4><p>mRNA vaccines weren't waiting on a discovery. The idea was proposed in 1988 and the key paper published in 2005, so what was missing was money and belief, not science. Operation Warp Speed invented nothing. It bought six candidates across three platforms, promised to pay even for the failures, and cut the review between phase 2 and phase 3 from six months to three weeks. R&amp;D isn't the problem. We need infrastructure to scale solutions faster and more robustly.</p></div>
     <div class="q"><span class="tag">From my group doc</span><h4>My open questions</h4><p>D'Souza says the Warp Speed model only works when no scientific breakthrough is needed, so it couldn't have produced mRNA in 2010. What pays for the thirty unfashionable years beforehand? Which platform is in that position right now, and how would we even know?</p></div>
   </div>
   <div class="reads" data-r="5"></div>
@@ -386,16 +386,16 @@ p.panel{display:block}
 <!-- UNIT 6 -->
 <section class="st" id="u6" style="--sc:var(--u6)">
   <div class="st-head"><div class="eyebrow">Unit 6</div><h2>Contributing to biosecurity</h2>
-    <p>The field is small and multidisciplinary. Many of the tools and organisations a pandemic-proof world needs only exist as drafts. The course's message: if the role you want doesn't exist, build it.</p></div>
+    <p>The field is small and multidisciplinary. Many of the tools and organisations a pandemic-proof world needs only exist as drafts. The course's message is that if the role you want doesn't exist, you should build it.</p></div>
   <div class="lab">
-    <div class="lab-title">Where different backgrounds fit: click one</div>
+    <div class="lab-title">Where different backgrounds fit · click one</div>
     <div class="row" id="roles"></div>
     <div class="panel" id="roleinfo" aria-live="polite"></div>
   </div>
   <div class="refl">
     <div><span class="tag">From my group doc</span><h4>What will have prevented catastrophic pandemics?</h4><p>Moving from reacting to outbreaks to building continuous, adaptive protection. Better air filtration will have made transmission harder, and surveillance and screening will be able to recognise unfamiliar threats. I'm especially interested in borrowing from biological immunity to build defences that learn, rather than relying on lists of known dangers.</p></div>
     <div><span class="tag">From my group doc</span><h4>How my thinking changed</h4><p>From pandemic response to the architecture of prevention, and towards building safety directly into AI-enabled biology. The challenge is systems that recognise emerging risks without being so restrictive that they block legitimate research.</p></div>
-    <div class="q"><span class="tag">From my group doc</span><h4>Open questions</h4><p>Biosecurity doesn't have enough people, and it's hard to weigh serious but unlikely long-term risks; it feels like we're placing bets on our future. How do we get more people into the field, and how do we create multidisciplinary environments?</p></div>
+    <div class="q"><span class="tag">From my group doc</span><h4>Open questions</h4><p>Biosecurity doesn't have enough people, and it's hard to weigh serious but unlikely long-term risks. It feels like we're placing bets on our future. How do we get more people into the field, and how do we create multidisciplinary environments?</p></div>
     <div><span class="tag">From my group doc</span><h4>My one-month goal</h4><p>Develop my foundation for embodied AI safety, and apply for biosecurity fellowships. I'd really like to devote my career to this, and I think some of these problems are very tractable.</p></div>
   </div>
   <div class="reads" data-r="6"></div>
@@ -423,7 +423,7 @@ if("IntersectionObserver" in window){
 }
 
 /* layers */
-[["Unit 2","Prevent","Deter and deny: stop the outbreak starting.","var(--prevent)","#u2"],["Unit 3","Detect","Spot it early, even if it's new.","var(--detect)","#u3"],["Unit 4","Withstand","Block transmission and keep society running.","var(--withstand)","#u4"],["Unit 5","Combat","Vaccines and treatments to end it.","var(--combat)","#u5"]].forEach(([n, t, d, c, h]) => {
+[["Unit 2","Prevent","Deter and deny, so it never starts.","var(--prevent)","#u2"],["Unit 3","Detect","Spot it early, even if it's new.","var(--detect)","#u3"],["Unit 4","Withstand","Block transmission and keep society running.","var(--withstand)","#u4"],["Unit 5","Combat","Vaccines and treatments to end it.","var(--combat)","#u5"]].forEach(([n, t, d, c, h]) => {
   const b = el("button", {type:"button", class:"l4", style:`--lc:${c}`}, `<span class="n">${n}</span><b>${t}</b><span>${d}</span>`);
   b.addEventListener("click", () => { location.hash = h; }); $("#l4").append(b);
 });
@@ -439,7 +439,7 @@ if("IntersectionObserver" in window){
     g.append(s("text", {x:220, y:y+15, "text-anchor":"end", style:"font-size:12.5px"}, n), s("rect", {x:230, y, width:Math.max(mid*1.95, 2), height:22, rx:3, style:"fill:var(--u5)"}));
     if(lo !== hi) g.append(s("path", {d:`M${X(lo)} ${y+11} L${X(hi)} ${y+11} M${X(lo)} ${y+5} L${X(lo)} ${y+17} M${X(hi)} ${y+5} L${X(hi)} ${y+17}`, style:"stroke:var(--ink); stroke-width:1.5"}));
     g.append(s("text", {x:Math.max(X(hi), X(mid)) + 8, y:y+15, style:"font-size:12px"}, lo !== hi ? `${lo}–${hi}M` : `~${mid}M`));
-    const show = () => { $("#deathnote").textContent = `${n}: about ${mid} million deaths${lo !== hi ? ` (estimates range from ${lo} to ${hi} million)` : ""}.`; };
+    const show = () => { $("#deathnote").textContent = `${n}. About ${mid} million deaths${lo !== hi ? `, though estimates range from ${lo} to ${hi} million` : ""}.`; };
     g.addEventListener("mouseenter", show); g.addEventListener("focus", show); g.addEventListener("click", show);
     svg.append(g);
   });
@@ -447,10 +447,10 @@ if("IntersectionObserver" in window){
 
 /* levers */
 (function(){
-  const L = [["Deter","Reduce intent","Make people less likely to want to cause harm: norms, education, attribution (so attackers expect to be caught) and international agreements like the Biological Weapons Convention, which has no verification mechanism and only a tiny support unit."],
-    ["Deny","Regulate discovery","Govern risky research before it happens: review of dual-use research, and pausing to ask whether a result should be published at all."],
-    ["Deny","AI model safeguards","Evaluations for biology capabilities, classifiers that block dangerous requests, and filtering training data. The same tools as the AI safety course, aimed at bio."],
-    ["Deny","Secure infrastructure","Screen orders at DNA synthesis companies (who is ordering, and is the sequence of concern?), and secure benchtop synthesisers and cloud labs so they can't be misused."]];
+  const L = [["Deter","Reduce intent","Make people less likely to want to cause harm in the first place. Part of that is attribution, so attackers expect to be caught. Part of it is international agreement. The Biological Weapons Convention bans these weapons but has no way to check compliance, and only a tiny support unit."],
+    ["Deny","Regulate discovery","Govern risky research before it happens. That means reviewing dual-use work properly, and being willing to ask whether a result should be published at all."],
+    ["Deny","AI model safeguards","These are the tools from the AI safety course pointed at biology. Labs test what their models know and can do, and classifiers block dangerous requests. Interpretability is starting to help too. Goodfire, for example, has been building biosecurity monitors for AI agents that use protein embeddings."],
+    ["Deny","Secure infrastructure","DNA synthesis companies can check who is ordering and whether the sequence is one of concern. Benchtop synthesisers and cloud labs need similar protection, which is harder because the machines sit in other people's labs."]];
   const box = $("#levers");
   L.forEach(([k, t, d], i) => { const b = el("button", {type:"button", class:"btn", "aria-pressed":String(i === 3)}, `${k}: ${t}`);
     b.addEventListener("click", () => { $$(".btn", box).forEach(x => x.setAttribute("aria-pressed", String(x === b))); $("#leverinfo").innerHTML = `<h5>${k} · ${t}</h5><p>${d}</p>`; }); box.append(b); });
@@ -474,7 +474,7 @@ if("IntersectionObserver" in window){
 
 /* evidence pyramid */
 (function(){
-  const P = [["Real-world evidence","Actual misuse or near-misses. The strongest evidence, and the kind we least want to collect."],["Uplift studies","Compare people working with and without AI on realistic but safe proxy tasks. Expensive, slow and small, but they measure what matters: does AI actually help?"],["Expert-graded tasks & red-teaming","Specialists probe the model and grade open-ended answers. Better than quizzes, but still not the real thing."],["Knowledge benchmarks","Multiple-choice tests of biology knowledge. Cheap and fast, but knowing facts isn't the same as being able to do the work."]];
+  const P = [["Real-world evidence","Actual misuse or near-misses. The strongest evidence, and the kind we least want to collect."],["Uplift studies","Compare people working with and without AI on realistic but safe stand-in tasks. They are slow and expensive, but they ask the question that matters, which is whether AI actually helps."],["Expert-graded tasks & red-teaming","Specialists probe the model and grade open-ended answers. Better than quizzes, but still not the real thing."],["Knowledge benchmarks","Multiple-choice tests of biology knowledge. Cheap and fast, but knowing facts isn't the same as being able to do the work."]];
   const svg = $("#pyr"); const H = 48;
   P.forEach(([t, d], i) => { const y = 14 + i*H; const half = 90 + i*75; const g = s("g", {tabindex:"0", role:"button", "aria-label":t, style:"cursor:pointer"});
     g.append(s("path", {d:`M${430-half} ${y+H-4} L${430-half+38} ${y} L${430+half-38} ${y} L${430+half} ${y+H-4} Z`, style:`fill:color-mix(in srgb, var(--prevent) ${70 - i*15}%, var(--paper)); stroke:var(--paper); stroke-width:2`}), s("text", {x:430, y:y+28, "text-anchor":"middle", style:`font-family:var(--display); font-weight:700; font-size:14px; fill:${i < 2 ? "var(--bg)" : "var(--ink)"}`}, t));
@@ -510,10 +510,10 @@ if("IntersectionObserver" in window){
 /* scenarios */
 (function(){
   const S = [
-   {t:"Novel coronavirus, camel farm, northern Kenya", now:["The herders who are first infected are never found: northern Kenya is too far from anywhere that could test them.","The first signal is a negative result. A patient reaches Nairobi with severe pneumonia, and a standard respiratory panel comes back negative for every target. Two of those in one intensive care unit makes someone pick up the phone. National labs sequence it and find a new betacoronavirus. This is how MERS was found in 2012.","It might be found abroad first, in a traveller who gets sick in Dubai or London. With a doubling time of 2–3 days, that's six to eight weeks, and it's on four continents before the first genome is public."],
-    better:["Sequencing is the ordinary first test. At ten dollars and under an hour, a herder with a fever gets sequenced at the county hospital for the same reason they'd get a malaria rapid test today.","The device flags a virus that has no business being in a human sample and escalates within minutes. No person had to decide it was interesting.","Aircraft wastewater at major hubs confirms spread on day one, not after weeks of travel histories. Routine sequencing of animals at livestock markets might catch it before any human case.","The limit: you find it at hundreds of cases instead of thousands. If the response still takes three weeks, you've spent every doubling you just bought."]},
-   {t:"Novel stealth pathogen, spreading through three hub cities", now:["For years nothing happens. A few pathogen-agnostic programmes exist, but none sits at these airports.","The likeliest catch is an accident: a transplant patient gets severe disease early, every panel is negative, and eventually someone runs metagenomics. Whether anyone generalises from one strange case to 'this is in everybody' is a coin flip.","Otherwise detection is the harm itself, arriving everywhere at once. Detection happens at close to 100% incidence; Kaufman's target is 1%."],
-    better:["Pooled nasal-swab sequencing runs continuously in all three hub cities, alongside aircraft wastewater. Kaufman names parallel organisations abroad as a top gap, and this is why.","The flag is 'new and growing', not 'dangerous': a sequence absent from all background samples whose share climbs week on week.","The decisive clue is that it climbs at three unrelated sites at once. Cross-site correlation turns a strange read into an alarm.","Escalation is a pipeline, not a judgement call: a flag triggers genome completion and then analysis of whether it looks engineered."]}
+   {t:"Novel coronavirus, camel farm, northern Kenya", now:["The herders who are first infected are never found. Northern Kenya is too far from anywhere that could test them.","The first signal is a negative result. A patient reaches Nairobi with severe pneumonia, and a standard respiratory panel comes back negative for every target. Two of those in one intensive care unit makes someone pick up the phone. National labs sequence it and find a new betacoronavirus. This is how MERS was found in 2012.","It might be found abroad first, in a traveller who gets sick in Dubai or London. With a doubling time of two or three days, that's six to eight weeks, and it's on four continents before the first genome is public."],
+    better:["Sequencing is the ordinary first test. At ten dollars and under an hour, a herder with a fever gets sequenced at the county hospital for the same reason they'd get a malaria rapid test today.","The device flags a virus that has no business being in a human sample and escalates within minutes. No person had to decide it was interesting.","Aircraft wastewater at major hubs confirms spread on day one, not after weeks of travel histories. Routine sequencing of animals at livestock markets might catch it before any human case.","The limit is that you find it at hundreds of cases instead of thousands. If the response still takes three weeks, you've spent every doubling you just bought."]},
+   {t:"Novel stealth pathogen, spreading through three hub cities", now:["For years nothing happens. A few pathogen-agnostic programmes exist, but none sits at these airports.","The likeliest catch is an accident. A transplant patient gets severe disease early, every panel is negative, and eventually someone runs metagenomics. Whether anyone generalises from one strange case to 'this is in everybody' is a coin flip.","Otherwise detection is the harm itself, arriving everywhere at once. Detection happens at close to 100% incidence. Kaufman's target is 1%."],
+    better:["Pooled nasal-swab sequencing runs continuously in all three hub cities, alongside aircraft wastewater. Kaufman names parallel organisations abroad as a top gap, and this is why.","The flag is 'new and growing', not 'dangerous': a sequence absent from all background samples whose share climbs week on week.","The decisive clue is that it climbs at three unrelated sites at once. Cross-site correlation turns a strange read into an alarm.","Escalation is a pipeline, not a judgement call. A flag triggers genome completion and then analysis of whether it looks engineered."]}
   ];
   const box = $("#scen");
   S.forEach(sc => { const d = el("div"); d.innerHTML = `<h4>${sc.t}</h4><div class="seg" role="group" aria-label="Which world"><button type="button" aria-pressed="true">Today</button><button type="button" aria-pressed="false">With better detection</button></div><div class="txt" style="display:grid; gap:8px" aria-live="polite"></div>`;
@@ -542,7 +542,7 @@ if("IntersectionObserver" in window){
       const col = i === 0 ? "var(--bad)" : ill.has(i-1) ? "var(--warn)" : "var(--withstand)";
       svg.append(s("circle", {cx:x, cy:y-12, r:9, style:`fill:${col}`}), s("rect", {x:x-11, y:y, width:22, height:22, rx:7, style:`fill:${col}`}));
       if(i === 0) svg.append(s("text", {x, y:y+38, "text-anchor":"middle", style:"fill:var(--bad); font-size:10px"}, "infected")); }
-    $("#rmsg").innerHTML = `Clean air totals <b>${total.toFixed(1)}</b> air changes per hour. Expected new infections among the other 9: <b>${(p*9).toFixed(1)}</b>. ${total < 4 ? "Typical of a poorly ventilated office." : total > 15 ? "Like a well-protected space: layers add up." : "Each layer adds up; none is enough alone."}`;
+    $("#rmsg").innerHTML = `Clean air adds up to <b>${total.toFixed(1)}</b> air changes per hour. Of the other nine people, about <b>${(p*9).toFixed(1)}</b> would be infected. ${total < 4 ? "Typical of a poorly ventilated office." : total > 15 ? "Like a well protected space. The layers add up." : "Each layer helps, but none is enough alone."}`;
   }
   ["#ach","#hepa","#uvc","#rh"].forEach(id => $(id).addEventListener("input", r)); r();
 })();
@@ -554,7 +554,7 @@ if("IntersectionObserver" in window){
     {k:"platform", n:"mRNA platform ready", d:"Design in days, not weeks", f:(s) => { s[0][1] = 3; s[1][1] = 30; }},
     {k:"library", n:"Prototype vaccines for virus families", d:"Preclinical work done in advance", f:(s) => { s[1][1] = Math.min(s[1][1], 10); }},
     {k:"overlap", n:"Overlap trial phases", d:"Seamless phase 1/2/3 designs", f:null},
-    {k:"risk", n:"Manufacture at risk", d:"Pay to build doses before approval (Warp Speed)", f:null},
+    {k:"risk", n:"Manufacture at risk", d:"Pay to build doses before approval, as Warp Speed did", f:null},
     {k:"review", n:"Rolling review", d:"Regulators read data as it arrives", f:(s) => { s[5][1] = 10; }}
   ];
   const on = new Set(); const box = $("#mcmopts");
@@ -582,7 +582,7 @@ if("IntersectionObserver" in window){
 
 /* roles */
 (function(){
-  const R = [["Technical / AI","Biology evals for AI models, safeguards and classifiers, screening tools for DNA synthesis, and metagenomic analysis pipelines."],["Builders","Start the organisations that don't exist yet: cheap diagnostics, far-UVC deployment, PPE supply, early-warning networks."],["Scientists","Deep expertise in aerosol science, immunology or synthetic biology that policy and builders rely on, e.g. far-UVC safety studies or broad-spectrum antivirals."],["Policy","Governing dual-use research, funding public goods like stockpiles, strengthening the Biological Weapons Convention, and synthesis-screening rules."],["Anyone","The course's point: biosecurity talent comes from fields that look nothing like it. Start with a small project, a rapid grant, or a fellowship."]];
+  const R = [["Technical / AI","Building biology evaluations and safeguards for AI models. Writing the software behind DNA synthesis screening and metagenomic surveillance."],["Builders","Start the organisations that don't exist yet. Cheap diagnostics and far-UVC deployment both need people who can turn a promising idea into something that ships."],["Scientists","Deep expertise that policy people and builders rely on. Far-UVC safety studies and broad-spectrum antivirals both need careful science before anyone can scale them."],["Policy","Governing dual-use research and paying for public goods like stockpiles. The Biological Weapons Convention badly needs people who understand both the politics and the science."],["Anyone","The course's point is that biosecurity talent often comes from fields that look nothing like it. A small project or a rapid grant is a good place to start."],["Neuroscience and sensing","My own route in. Biology has been detecting chemical threats for millions of years through smell. Machine olfaction and embodied sensors could make detection cheaper, and put it in places people can't easily go."]];
   const box = $("#roles");
   R.forEach(([t, d], i) => { const b = el("button", {type:"button", class:"btn", "aria-pressed":String(i === 0)}, t); b.addEventListener("click", () => { $$(".btn", box).forEach(x => x.setAttribute("aria-pressed", String(x === b))); $("#roleinfo").innerHTML = `<h5>${t}</h5><p>${d}</p>`; }); box.append(b); });
   $("#roleinfo").innerHTML = `<h5>${R[0][0]}</h5><p>${R[0][1]}</p>`;
@@ -590,7 +590,7 @@ if("IntersectionObserver" in window){
 
 /* readings */
 const RD = {
- 1:[["Info hazard guidance for biosecurity discussions","Chris Bakerlee & Tessa Alexanian · 2024","How to discuss biosecurity without spreading dangerous specifics."],["What were the death tolls from pandemics in history?","Saloni Dattani · 2023","Pandemics in historical perspective, and why estimates vary so widely."],["Mother Nature is not 'the ultimate bioterrorist'","Chris Bakerlee · 2021","Natural pathogens aren't optimised for harm, so they're not the worst case."],["Nature Sets a Baseline, Not a Ceiling, for Biological Harm","Becca Chandler Bostock · 2026","Why engineered risks can exceed natural ones."],["How AI could enable catastrophic pandemics","Will Saunter · 2025","Where AI might change biological risk."],["Securing Civilisation Against Catastrophic Pandemics","Gopal, Bradshaw, Sunil & Esvelt · 2023","A defence-first agenda: delay, detect, defend."],["Mirror Life: Brief of the Scientific Advisory Board","UN Scientific Advisory Board · 2026","Why mirror-image organisms are a distinctive risk."],["Pandemic prevention as fire-fighting","Richard Williamson · 2022","Learning from how societies made fire rare."]],
+ 1:[["Info hazard guidance for biosecurity discussions","Chris Bakerlee & Tessa Alexanian · 2024","How to discuss biosecurity without spreading dangerous specifics."],["What were the death tolls from pandemics in history?","Saloni Dattani · 2023","Pandemics in historical perspective, and why estimates vary so widely."],["Mother Nature is not 'the ultimate bioterrorist'","Chris Bakerlee · 2021","Natural pathogens aren't optimised for harm, so they're not the worst case."],["Nature Sets a Baseline, Not a Ceiling, for Biological Harm","Becca Chandler Bostock · 2026","Why engineered risks can exceed natural ones."],["How AI could enable catastrophic pandemics","Will Saunter · 2025","Where AI might change biological risk."],["Securing Civilisation Against Catastrophic Pandemics","Gopal, Bradshaw, Sunil & Esvelt · 2023","A defence-first agenda for catastrophic pandemics."],["Mirror Life: Brief of the Scientific Advisory Board","UN Scientific Advisory Board · 2026","Why mirror-image organisms are a distinctive risk."],["Pandemic prevention as fire-fighting","Richard Williamson · 2022","Learning from how societies made fire rare."]],
  2:[["When Should We Worry About AI Being Used to Design a Pathogen?","Manheim, Williams, Aveggio & Berke · 2025","What AI can and can't do in biology today."],["Horsepox Synthesis: A case of the unilateralist's curse?","Gregory Lewis · 2018","A controversial publication and the idea of the unilateralist's curse."],["The role of evals in the biorisk evidence hierarchy","SecureBio & Jasper Götting · 2026","What different kinds of evaluation can and can't tell us."],["Biological Weapons Convention","Wikipedia · 2025","The treaty, and its lack of verification."],["Why do we take LLMs seriously as a potential source of biorisk?","Anthropic · 2025","A lab's reasoning for its bio safeguards."],["Evaluating Safety and Security in Biological Research","Williams et al. · 2025","How research oversight works in practice."],["How to stop bioterrorists from buying dangerous DNA","Batalis & Venkatram · 2025","DNA synthesis screening and its gaps."]],
  3:[["State of Pandemic Early Warning","Jeff Kaufman · 2026","Where pathogen-agnostic detection stands, and the biggest gaps."]],
  4:[["The Four Pillars: A Hypothesis for Countering Catastrophic Biological Risk","Andrew Snyder-Beattie · 2025","A funder's framework for biodefence, including PPE and biohardening."],["Innovate and Stockpile: Respiratory Protection for Essential Workers","Montazeri & Sandbrink · 2023","Keeping essential workers safe in a catastrophic pandemic."],["Indoor Air Quality Is the Next Great Public Health Challenge","Cambeiro & Potter · 2023","Clean indoor air as public health infrastructure."],["Far-UVC","Jeff Kaufman · 2025","What far-UVC is and what we still don't know."],["Flipping the switch on far-UVC","Richard Williamson · 2025","Getting from promising evidence to deployment."]],
@@ -605,11 +605,11 @@ $$(".reads").forEach(box => { const u = box.dataset.r; (RD[u] || []).forEach(([t
 
 /* quizzes */
 const QZ = {
- 1:[["Why does the course say nature is not the 'ultimate bioterrorist'?",["Natural pathogens are always mild","Natural pathogens aren't optimised for harm, so they set a floor, not a ceiling","Engineered pathogens are impossible","Pandemics are rare"],1,"Nature sets a baseline. Engineered or novel agents (like mirror life) needn't respect it."],["What's the main lesson of 'pandemic prevention as fire-fighting'?",["Hire more fire-fighters","Build a world where outbreaks can't spread far, through standards, alarms and equipment","Pandemics are like wildfires and can't be stopped","Only vaccines matter"],1,"Fire became rare through boring infrastructure. The same could work for pandemics."]],
- 2:[["Twenty labs could each decide alone to publish a risky result, each with a 5% chance of misjudging. Roughly how likely is it that at least one publishes?",["5%","About 64%","100%","1%"],1,"1 − 0.95²⁰ ≈ 0.64. That's the unilateralist's curse."],["Which is a 'deny' intervention?",["Raising awareness of norms","DNA synthesis screening","Attribution","Diplomacy"],1,"Deny removes the means; deter reduces the intent."],["Why are uplift studies higher in the evidence hierarchy than knowledge benchmarks?",["They're cheaper","They test whether AI actually helps people do the task, not just whether it knows facts","They use more questions","They're automated"],1,"Knowing facts isn't the same as being able to do the work."]],
+ 1:[["Why does the course say nature is not the 'ultimate bioterrorist'?",["Natural pathogens are always mild","Natural pathogens aren't optimised for harm, so they set a floor, not a ceiling","Engineered pathogens are impossible","Pandemics are rare"],1,"Nature sets a baseline. Engineered agents, or new ones like mirror life, needn't respect it."],["What's the main lesson of 'pandemic prevention as fire-fighting'?",["Hire more fire-fighters","Build a world where outbreaks can't spread far, through boring infrastructure like building standards","Pandemics are like wildfires and can't be stopped","Only vaccines matter"],1,"Fire became rare through boring infrastructure. The same could work for pandemics."]],
+ 2:[["Twenty labs could each decide alone to publish a risky result, each with a 5% chance of misjudging. Roughly how likely is it that at least one publishes?",["5%","About 64%","100%","1%"],1,"1 − 0.95²⁰ ≈ 0.64. That's the unilateralist's curse."],["Which is a 'deny' intervention?",["Raising awareness of norms","DNA synthesis screening","Attribution","Diplomacy"],1,"Deny removes the means. Deter reduces the intent."],["Why are uplift studies higher in the evidence hierarchy than knowledge benchmarks?",["They're cheaper","They test whether AI actually helps people do the task, not just whether it knows facts","They use more questions","They're automated"],1,"Knowing facts isn't the same as being able to do the work."]],
  3:[["Why is metagenomic sequencing promising for early warning?",["It only looks for known pathogens","It reads all DNA and RNA in a sample, so it can flag things nobody knew to look for","It replaces vaccines","It's free"],1,"Pathogen-agnostic detection is key for novel or engineered threats."],["With a 3-day doubling time, how much does a 3-week response delay cost?",["Nothing","About 7 doublings, roughly 128× more infections","One doubling","It depends on the vaccine"],1,"21 ÷ 3 = 7 doublings, and 2⁷ = 128. Fast response matters as much as early detection."]],
- 4:[["Why are NPIs valuable early in a pandemic?",["They target one specific pathogen","They mostly work whatever the pathogen, so they can be prepared in advance","They're always cheap","They replace vaccines"],1,"Pathogen-agnostic means ready on day one."],["Which happens to conventional UV as humidity rises above about 60–70%?",["It gets stronger","It loses much of its effect","Nothing","It becomes unsafe"],1,"One reason estimates vary so much between studies."]],
- 5:[["What did Operation Warp Speed mainly change?",["It invented mRNA","It funded many candidates in parallel and paid even for failures, cutting waiting time","It skipped safety trials","It only used one platform"],1,"Money and parallel bets, not new science."],["Why can't we rely only on vaccines against a sophisticated attack?",["Vaccines don't work","An adversary could design around existing vaccines or release multiple variants","Vaccines are too cheap","They're too fast"],1,"That's why physical barriers (Unit 4) remain essential."]]
+ 4:[["Why are NPIs valuable early in a pandemic?",["They target one specific pathogen","They mostly work whatever the pathogen, so they can be prepared in advance","They're always cheap","They replace vaccines"],1,"Pathogen-agnostic means ready on day one."],["What happens to conventional UV as humidity rises above about 60 to 70%?",["It gets stronger","It loses much of its effect","Nothing","It becomes unsafe"],1,"One reason estimates vary so much between studies."]],
+ 5:[["What did Operation Warp Speed mainly change?",["It invented mRNA","It funded many candidates in parallel and paid even for failures, cutting waiting time","It skipped safety trials","It only used one platform"],1,"Money and parallel bets, not new science."],["Why can't we rely only on vaccines against a sophisticated attack?",["Vaccines don't work","An adversary could design around existing vaccines or release multiple variants","Vaccines are too cheap","They're too fast"],1,"That's why the physical barriers from Unit 4 still matter."]]
 };
 $$(".quiz").forEach(box => { const u = box.dataset.q; (QZ[u] || []).forEach(([q, o, a, w], i) => {
   const d = el("div", {class:"qq"}, `<p class="stem">${i+1}. ${q}</p>`); const why = el("p", {class:"why", hidden:""});
